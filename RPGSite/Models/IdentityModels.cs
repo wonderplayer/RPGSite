@@ -20,6 +20,21 @@ namespace RPGSite.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Comments> Comments { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<EquipmentRarities> EquipmentRarities { get; set; }
+        public DbSet<EquipmentTypes> EquipmentTypes { get; set; }
+        public DbSet<Events> Events { get; set; }
+        public DbSet<Gallery> Gallery { get; set; }
+        public DbSet<Inventory> Inventory { get; set; }
+        public DbSet<Messages> Messages { get; set; }
+        public DbSet<OrderItems> OrderItems { get; set; }
+        public DbSet<Orders> Orders { get; set; }
+        public DbSet<PaymentMethods> PaymentMethods { get; set; }
+        public DbSet<Posts> Posts { get; set; }
+        public DbSet<Trades> Trades { get; set; }
+
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
