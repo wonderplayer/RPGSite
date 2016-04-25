@@ -177,6 +177,10 @@
     <Compile Include="Migrations\201604250819158_DataMigration.Designer.cs">
       <DependentUpon>201604250819158_DataMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604251417321_DataMigration1.cs" />
+    <Compile Include="Migrations\201604251417321_DataMigration1.Designer.cs">
+      <DependentUpon>201604251417321_DataMigration1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Comments.cs" />
@@ -207,6 +211,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Shields\Shield.jpg" />
+    <Content Include="Images\Swords\GuardianAngelSword.gif" />
+    <Content Include="Images\Swords\Sword.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -270,6 +277,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604250819158_DataMigration.resx">
       <DependentUpon>201604250819158_DataMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604251417321_DataMigration1.resx">
+      <DependentUpon>201604251417321_DataMigration1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
