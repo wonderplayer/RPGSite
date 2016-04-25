@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RPGSite.Models
 {
@@ -8,18 +9,19 @@ namespace RPGSite.Models
     {
         public int ID { get; set; }
 
-        [Timestamp]
         public DateTime OrderDate { get; set; }
 
         [DataType(DataType.Currency)]
         public int Total { get; set; }
 
-        public virtual int UserID { get; set; }
+        public virtual string UserID { get; set; }
 
-        public RegisterViewModel User { get; set; }
+        [ForeignKey("UserID")]
+        public ApplicationUser User { get; set; }
 
         public virtual int PaymentMethodID { get; set; }
 
+        [ForeignKey("PaymentMethodID")]
         public PaymentMethods PaymentMethod { get; set; }
 
         public List<OrderItems> OrderItems { get; set; }

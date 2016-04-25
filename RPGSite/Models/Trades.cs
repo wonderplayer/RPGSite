@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RPGSite.Models
 {
@@ -7,26 +9,13 @@ namespace RPGSite.Models
     {
         public int ID { get; set; }
 
-        [Timestamp]
         public DateTime TradeDate { get; set; }
 
         [StringLength(8)]
         public string Status { get; set; }
 
-        public virtual int SenderID { get; set; }
+        public List<OfferedItems> OfferedItems { get; set; }
 
-        public RegisterViewModel Sender { get; set; }
-
-        public virtual int RecieverID { get; set; }
-
-        public RegisterViewModel Reciever { get; set; }
-
-        public virtual int WantedItemID { get; set; }
-
-        public Equipment WantedItem { get; set; }
-
-        public virtual int OfferedItemID { get; set; }
-
-        public Equipment OfferedItem { get; set; }
+        public List<WantedItems> RecieverItems { get; set; }
     }
 }

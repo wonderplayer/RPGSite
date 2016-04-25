@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RPGSite.Models
 {
@@ -24,19 +25,21 @@ namespace RPGSite.Models
         [Required]
         public virtual int TypeID { get; set; }
 
+        [ForeignKey("TypeID")]
         public EquipmentTypes Type { get; set; }
 
         [Required]
         public virtual int RarityID { get; set; }
 
+        [ForeignKey("RarityID")]
         public EquipmentRarities Rarity { get; set; }
 
         public List<OrderItems> OrderItems { get; set; }
 
-        public List<Trades> WantedForTrade { get; set; }
+        public List<OfferedItems> OfferedForTrade { get; set; }
 
-        public List<Trades> OfferedForTrade { get; set; }
+        public List<WantedItems> WantedForTrade { get; set; }
 
-        public List<Inventory> Inventory { get; set; }
+        public List<Inventories> Inventory { get; set; }
     }
 }

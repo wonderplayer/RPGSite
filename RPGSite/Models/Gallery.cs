@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RPGSite.Models
 {
@@ -13,12 +10,13 @@ namespace RPGSite.Models
         [MaxLength(4096)]
         public byte[] Picture { get; set; }
 
-        [MaxLength(100)]
+        [StringLength(100)]
         public string Description { get; set; }
 
-        public virtual int UserID { get; set; }
+        public virtual string UserID { get; set; }
 
-        public RegisterViewModel User { get; set; }
+        [ForeignKey("UserID")]
+        public ApplicationUser User { get; set; }
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RPGSite.Models
 {
@@ -16,17 +17,16 @@ namespace RPGSite.Models
         [StringLength(3000, MinimumLength = 10)]
         public string Description { get; set; }
 
-        [Timestamp]
         public DateTime Created { get; set; }
 
-        [Timestamp]
         public DateTime Updated { get; set; }
 
         public bool IsNews { get; set; }
 
-        public virtual int UserID { get; set; }
+        public virtual string UserID { get; set; }
 
-        public RegisterViewModel User { get; set; }
+        [ForeignKey("UserID")]
+        public ApplicationUser User { get; set; }
 
         public List<Comments> Comments { get; set; }
 

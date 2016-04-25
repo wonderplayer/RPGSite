@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RPGSite.Models
 {
-    public class Messages
+    public class SentMessages
     {
         public int ID { get; set; }
 
@@ -18,17 +17,15 @@ namespace RPGSite.Models
         [MaxLength(500)]
         public string Message { get; set; }
 
-        [Timestamp]
         public DateTime DateSent { get; set; }
 
         public bool Read { get; set; }
 
-        public virtual int SenderID { get; set; }
+        public virtual string UserID { get; set; }
 
-        public RegisterViewModel Sender { get; set; }
+        [ForeignKey("UserID")]
+        public ApplicationUser User { get; set; }
 
-        public virtual int RecieverID { get; set; }
-
-        public RegisterViewModel Reciever { get; set; }
+        public List<RecievedMessages> Recievers { get; set; }
     }
 }
