@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace RPGSite.Models
+{
+    public class Posts
+    {
+        public int ID { get; set; }
+
+        [Required]
+        [StringLength(100, MinimumLength = 10)]
+        public string Title { get; set; }
+
+        [Required]
+        [StringLength(3000, MinimumLength = 10)]
+        public string Description { get; set; }
+
+        [Timestamp]
+        public DateTime Created { get; set; }
+
+        [Timestamp]
+        public DateTime Updated { get; set; }
+
+        public bool IsNews { get; set; }
+
+        public virtual int UserID { get; set; }
+
+        public RegisterViewModel User { get; set; }
+
+        public List<Comments> Comments { get; set; }
+
+    }
+}
