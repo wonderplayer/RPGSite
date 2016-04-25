@@ -17,7 +17,7 @@ namespace RPGSite.Models
         public string Description { get; set; }
 
         [DataType(DataType.Currency)]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         [Required]
         public byte[] Picture { get; set; }

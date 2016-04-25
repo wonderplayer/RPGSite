@@ -14,7 +14,7 @@ namespace RPGSite.Models
         public int Quantity { get; set; }
 
         [DataType(DataType.Currency)]
-        public int Total { get; set; }
+        public double Total { get; set; }
 
         public virtual int EquipmentID { get; set; }
 
