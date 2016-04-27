@@ -20,6 +20,7 @@ namespace RPGSite.Models
         public double Price { get; set; }
 
         [Required]
+        [MaxLength(200)]
         public byte[] Picture { get; set; }
 
         [Required]
