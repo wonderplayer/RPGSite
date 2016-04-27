@@ -7,13 +7,13 @@ namespace RPGSite.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddMaxLengthToEquipmentImage : IMigrationMetadata
+    public sealed partial class RemoveMaxLength : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddMaxLengthToEquipmentImage));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RemoveMaxLength));
         
         string IMigrationMetadata.Id
         {
-            get { return "201604270623130_AddMaxLengthToEquipmentImage"; }
+            get { return "201604270658094_RemoveMaxLength"; }
         }
         
         string IMigrationMetadata.Source

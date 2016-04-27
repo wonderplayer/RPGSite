@@ -7,7 +7,6 @@ namespace RPGSite.Models
     {
         public int ID { get; set; }
 
-        [MaxLength(4096)]
         public byte[] Picture { get; set; }
 
         [StringLength(100)]

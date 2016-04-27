@@ -184,9 +184,9 @@
     <Compile Include="Migrations\201604251417321_DataMigration1.Designer.cs">
       <DependentUpon>201604251417321_DataMigration1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604270623130_AddMaxLengthToEquipmentImage.cs" />
-    <Compile Include="Migrations\201604270623130_AddMaxLengthToEquipmentImage.Designer.cs">
-      <DependentUpon>201604270623130_AddMaxLengthToEquipmentImage.cs</DependentUpon>
+    <Compile Include="Migrations\201604270658094_RemoveMaxLength.cs" />
+    <Compile Include="Migrations\201604270658094_RemoveMaxLength.Designer.cs">
+      <DependentUpon>201604270658094_RemoveMaxLength.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -303,8 +303,8 @@
     <EmbeddedResource Include="Migrations\201604251417321_DataMigration1.resx">
       <DependentUpon>201604251417321_DataMigration1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604270623130_AddMaxLengthToEquipmentImage.resx">
-      <DependentUpon>201604270623130_AddMaxLengthToEquipmentImage.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604270658094_RemoveMaxLength.resx">
+      <DependentUpon>201604270658094_RemoveMaxLength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
