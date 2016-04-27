@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RPGSite.Models;
+using System.Drawing;
+using System.IO;
 
 namespace RPGSite.Controllers
 {
