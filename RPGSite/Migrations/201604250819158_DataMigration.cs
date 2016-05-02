@@ -94,7 +94,7 @@ namespace RPGSite.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Picture = c.Binary(maxLength: 4096),
+                        Picture = c.String(),
                         Description = c.String(maxLength: 100),
                         UserID = c.String(maxLength: 128),
                     })
@@ -124,8 +124,8 @@ namespace RPGSite.Migrations
                         ID = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false, maxLength: 20),
                         Description = c.String(nullable: false, maxLength: 500),
-                        Price = c.Int(nullable: false),
-                        Picture = c.Binary(nullable: false),
+                        Price = c.Double(nullable: false),
+                        Picture = c.String(nullable: false),
                         TypeID = c.Int(nullable: false),
                         RarityID = c.Int(nullable: false),
                     })
@@ -185,7 +185,7 @@ namespace RPGSite.Migrations
                     {
                         ID = c.Int(nullable: false, identity: true),
                         Quantity = c.Int(nullable: false),
-                        Total = c.Int(nullable: false),
+                        Total = c.Double(nullable: false),
                         EquipmentID = c.Int(nullable: false),
                         OrderID = c.Int(nullable: false),
                     })
@@ -201,7 +201,7 @@ namespace RPGSite.Migrations
                     {
                         ID = c.Int(nullable: false, identity: true),
                         OrderDate = c.DateTime(nullable: false),
-                        Total = c.Int(nullable: false),
+                        Total = c.Double(nullable: false),
                         UserID = c.String(maxLength: 128),
                         PaymentMethodID = c.Int(nullable: false),
                     })

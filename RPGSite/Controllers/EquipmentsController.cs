@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using RPGSite.Models;
-using System.Drawing;
+using System.Web;
 using System.IO;
 
 namespace RPGSite.Controllers
@@ -51,10 +47,16 @@ namespace RPGSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] Equipment equipment)
+        public ActionResult Create([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] Equipment equipment, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var path = Path.GetFileName(upload.FileName);
+                    equipment.Picture = path;
+                }
+
                 db.Equipment.Add(equipment);
                 db.SaveChanges();
                 return RedirectToAction("Index");

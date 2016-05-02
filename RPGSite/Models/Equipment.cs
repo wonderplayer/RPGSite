@@ -20,7 +20,7 @@ namespace RPGSite.Models
         public double Price { get; set; }
 
         [Required]
-        public byte[] Picture { get; set; }
+        public string Picture { get; set; }
 
         [Required]
         public virtual int TypeID { get; set; }

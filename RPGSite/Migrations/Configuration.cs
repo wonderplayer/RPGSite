@@ -59,18 +59,18 @@ namespace RPGSite.Migrations
 
             var typeIDs = getEquipmentTypeIDs(context);
 
-            Image sword1 = Image.FromFile("D:\\VisualStudio2015\\Projects\\RPGSite\\RPGSite\\Images\\Swords\\Sword.jpg");
-            Image sword2 = Image.FromFile("D:\\VisualStudio2015\\Projects\\RPGSite\\RPGSite\\Images\\Swords\\GuardianAngelSword.gif");
-            Image shield1 = Image.FromFile("D:\\VisualStudio2015\\Projects\\RPGSite\\RPGSite\\Images\\Shields\\Shield.jpg");
-            var convertedSword1 = jpegImageToByteArray(sword1);
-            var convertedSword2 = jpegImageToByteArray(sword2);
-            var convertedShield1 = jpegImageToByteArray(shield1);
+            //Image sword1 = Image.FromFile("D:\\VisualStudio2015\\Projects\\RPGSite\\RPGSite\\Images\\Swords\\Sword.jpg");
+            //Image sword2 = Image.FromFile("D:\\VisualStudio2015\\Projects\\RPGSite\\RPGSite\\Images\\Swords\\GuardianAngelSword.gif");
+            //Image shield1 = Image.FromFile("D:\\VisualStudio2015\\Projects\\RPGSite\\RPGSite\\Images\\Shields\\Shield.jpg");
+            //var convertedSword1 = jpegImageToByteArray(sword1);
+            //var convertedSword2 = jpegImageToByteArray(sword2);
+            //var convertedShield1 = jpegImageToByteArray(shield1);
 
             context.Equipment.AddOrUpdate(
                 e => e.Title,
-                new Equipment { ID = 1, Title = "Dragon sword", Description = "Sword form dragons skin", Price = 10.99, TypeID = typeIDs[0], RarityID = rarityIDs[0], Picture = convertedSword1},
-                new Equipment { ID = 2, Title = "Dragons shield", Description = "Shield form dragons skin", Price = 8.99, TypeID = typeIDs[1], RarityID = rarityIDs[0], Picture = convertedShield1},
-                new Equipment { ID = 3, Title = "Warriors magic sword", Description = "Sword of mighty magic warrior", Price = 20.99, TypeID = typeIDs[0], RarityID = rarityIDs[1], Picture = convertedSword2 }
+                new Equipment { ID = 1, Title = "Dragon sword", Description = "Sword form dragons skin", Price = 10.99, TypeID = typeIDs[0], RarityID = rarityIDs[0], Picture = "\\Swords\\Sword.jpg" },
+                new Equipment { ID = 2, Title = "Dragons shield", Description = "Shield form dragons skin", Price = 8.99, TypeID = typeIDs[1], RarityID = rarityIDs[0], Picture = "\\Shields\\Shield.jpg" },
+                new Equipment { ID = 3, Title = "Warriors magic sword", Description = "Sword of mighty magic warrior", Price = 20.99, TypeID = typeIDs[0], RarityID = rarityIDs[1], Picture = "\\Swords\\GuardianAngelSword.gif" }
                 );
             SaveChanges(context);
 
@@ -209,26 +209,26 @@ namespace RPGSite.Migrations
             }
         }
 
-        public byte[] gifImageToByteArray(Image imageIn)
-        {
-            using (var ms = new MemoryStream()) {
-                imageIn.Save(ms, ImageFormat.Gif);
-                return ms.ToArray();
-            }
-            //Byte array to image
-            //var smthn = new byte[2];
-            //using (var ms = new MemoryStream(smthn)) {
-            //    var img = Image.FromStream(ms);
-            //}
-        }
+        //public byte[] gifImageToByteArray(Image imageIn)
+        //{
+        //    using (var ms = new MemoryStream()) {
+        //        imageIn.Save(ms, ImageFormat.Gif);
+        //        return ms.ToArray();
+        //    }
+        //    //Byte array to image
+        //    //var smthn = new byte[2];
+        //    //using (var ms = new MemoryStream(smthn)) {
+        //    //    var img = Image.FromStream(ms);
+        //    //}
+        //}
 
-        public byte[] jpegImageToByteArray(Image imageIn)
-        {
-            using (var ms = new MemoryStream()) {
-                imageIn.Save(ms, ImageFormat.Jpeg);
-                return ms.ToArray();
-            }
-        }
+        //public byte[] jpegImageToByteArray(Image imageIn)
+        //{
+        //    using (var ms = new MemoryStream()) {
+        //        imageIn.Save(ms, ImageFormat.Jpeg);
+        //        return ms.ToArray();
+        //    }
+        //}
 
         private int[] getOrderIDs(ApplicationDbContext context)
         {
