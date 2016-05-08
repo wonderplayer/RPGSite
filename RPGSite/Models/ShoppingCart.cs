@@ -156,14 +156,14 @@ namespace RPGSite.Models
         }
         //When a user ha logged in, migrate their shopping cart to
         //ve associated with theid username
-        public void MigrateCart(string userName)
+        public void MigrateCart(string email)
         {
             var shoppingCart = db.Carts.Where(
                 c => c.CartID == ShoppingCartID);
 
             foreach (Cart item in shoppingCart)
             {
-                item.CartID = userName;
+                item.CartID = email;
             }
             db.SaveChanges();
         }

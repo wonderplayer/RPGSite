@@ -33,7 +33,7 @@
     <em>Review</em> your cart:
 </h2>
 <p class="button">
-    @Html.ActionLink("Checkout>>", "AddressAndPayment", "Checkout")
+    @Html.ActionLink("Checkout>>", "Payment", "Checkout")
 </p>
 
 <div id="update-message"></div>
@@ -81,11 +81,3 @@
         </td>
     </tr>
 </table>
-
-<select>
-    @foreach (var method in Model.PaymentMethods)
-    {
-        <option value="@method.ID">@method.Method</option>
-    }
-</select>
-

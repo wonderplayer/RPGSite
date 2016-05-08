@@ -170,6 +170,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\EquipmentRaritiesController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\EquipmentTypesController.cs" />
@@ -308,6 +309,8 @@
     <Content Include="Views\PaymentMethods\Index.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\Checkout\Payment.cshtml" />
+    <Content Include="Views\Checkout\Complete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

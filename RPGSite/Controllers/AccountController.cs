@@ -75,10 +75,14 @@ namespace RPGSite.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
+
+                    //Migrates shopping cart
+                    MigrateShoppingCart(model.UserName);
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -157,6 +161,10 @@ namespace RPGSite.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     await UserManager.AddToRoleAsync(user.Id, "User");
+                    
+                    //Migrates shopping cart
+                    MigrateShoppingCart(model.UserName);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -479,6 +487,17 @@ namespace RPGSite.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+        #endregion
+
+        #region My methods
+        private void MigrateShoppingCart(string UserName)
+        {
+            //Associate shopping cart with logged-in user
+            var cart = ShoppingCart.GetCart(HttpContext);
+
+            cart.MigrateCart(UserName);
+            Session[ShoppingCart.CartSessionKey] = UserName;
         }
         #endregion
     }
