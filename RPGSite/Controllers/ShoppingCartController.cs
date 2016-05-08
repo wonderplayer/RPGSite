@@ -20,7 +20,8 @@ namespace RPGSite.Controllers
             var viewModel = new ShoppingCartViewModel
             {
                 CartItems = cart.GetCartItems(),
-                CartTotal = cart.GetTotal()
+                CartTotal = cart.GetTotal(),
+                PaymentMethods = db.PaymentMethods.ToList()
             };
             //Return the view
             return View(viewModel);

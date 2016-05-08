@@ -82,3 +82,10 @@
     </tr>
 </table>
 
+<select>
+    @foreach (var method in Model.PaymentMethods)
+    {
+        <option value="@method.ID">@method.Method</option>
+    }
+</select>
+
