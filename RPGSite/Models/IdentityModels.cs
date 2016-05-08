@@ -50,6 +50,7 @@ namespace RPGSite.Models
         public DbSet<SentMessages> SentMessages { get; set; }
         public DbSet<Trades> Trades { get; set; }
         public DbSet<WantedItems> WantedItems { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

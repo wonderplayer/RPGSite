@@ -47,14 +47,18 @@ namespace RPGSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] Equipment equipment, HttpPostedFileBase upload)
+        public ActionResult Create([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] Equipment equipment, HttpPostedFileBase Picture)
         {
             if (ModelState.IsValid)
             {
-                if (upload != null && upload.ContentLength > 0)
+                if (Picture != null && Picture.ContentLength > 0)
                 {
-                    var path = Path.GetFileName(upload.FileName);
-                    equipment.Picture = path;
+                    var picture = Path.GetFileName(Picture.FileName);
+                    var folder = db.EquipmentTypes.Find(equipment.TypeID).Type.ToString();
+                    var databasePath = folder + "/" + picture;
+                    equipment.Picture = databasePath;                  
+                    var path = Path.Combine(Server.MapPath("~/images/"), databasePath);
+                    Picture.SaveAs(path);
                 }
 
                 db.Equipment.Add(equipment);
@@ -81,6 +85,7 @@ namespace RPGSite.Controllers
             }
             ViewBag.RarityID = new SelectList(db.EquipmentRarities, "ID", "Rarity", equipment.RarityID);
             ViewBag.TypeID = new SelectList(db.EquipmentTypes, "ID", "Type", equipment.TypeID);
+            ViewBag.PicturePath = Path.Combine(Server.MapPath("~/images/"), equipment.Picture);
             return View(equipment);
         }
 
@@ -89,8 +94,12 @@ namespace RPGSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] Equipment equipment)
+        public ActionResult Edit([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] Equipment equipment, HttpPostedFileBase Picture, string currentPicturePath)
         {
+            if (Picture == null)
+            {
+                equipment.Picture = currentPicturePath;
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(equipment).State = EntityState.Modified;

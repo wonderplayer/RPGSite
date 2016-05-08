@@ -13,6 +13,7 @@ namespace RPGSite.Migrations
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Web;
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
@@ -22,7 +23,7 @@ namespace RPGSite.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            var passwordHash = new PasswordHasher();
+        var passwordHash = new PasswordHasher();
             string password = passwordHash.HashPassword("Test112");
             context.Roles.AddOrUpdate(
                 r => r.Name,
@@ -33,7 +34,7 @@ namespace RPGSite.Migrations
 
             context.Users.AddOrUpdate(
                 u => u.UserName,
-                new ApplicationUser { UserName = "Admin", Email = "admin@admin.com", PasswordHash = password, },
+                new ApplicationUser { UserName = "Admin", Email = "admin@admin.com", PasswordHash = password },
                 new ApplicationUser { UserName = "Roland", Email = "roland@roland.com", PasswordHash = password },
                 new ApplicationUser { UserName = "Edgar", Email = "edgar@edgar.com", PasswordHash = password }
                 );
@@ -68,9 +69,9 @@ namespace RPGSite.Migrations
 
             context.Equipment.AddOrUpdate(
                 e => e.Title,
-                new Equipment { ID = 1, Title = "Dragon sword", Description = "Sword form dragons skin", Price = 10.99, TypeID = typeIDs[0], RarityID = rarityIDs[0], Picture = "\\Swords\\Sword.jpg" },
-                new Equipment { ID = 2, Title = "Dragons shield", Description = "Shield form dragons skin", Price = 8.99, TypeID = typeIDs[1], RarityID = rarityIDs[0], Picture = "\\Shields\\Shield.jpg" },
-                new Equipment { ID = 3, Title = "Warriors magic sword", Description = "Sword of mighty magic warrior", Price = 20.99, TypeID = typeIDs[0], RarityID = rarityIDs[1], Picture = "\\Swords\\GuardianAngelSword.gif" }
+                new Equipment { ID = 1, Title = "Dragon sword", Description = "Sword form dragons skin", Price = 10.99m, TypeID = typeIDs[0], RarityID = rarityIDs[0], Picture = "\\Swords\\Sword.jpg" },
+                new Equipment { ID = 2, Title = "Dragons shield", Description = "Shield form dragons skin", Price = 8.99m, TypeID = typeIDs[1], RarityID = rarityIDs[0], Picture = "\\Shields\\Shield.jpg" },
+                new Equipment { ID = 3, Title = "Warriors magic sword", Description = "Sword of mighty magic warrior", Price = 20.99m, TypeID = typeIDs[0], RarityID = rarityIDs[1], Picture = "\\Swords\\GuardianAngelSword.gif" }
                 );
             SaveChanges(context);
 
@@ -165,9 +166,9 @@ namespace RPGSite.Migrations
 
             context.Orders.AddOrUpdate(
                 o => o.ID,
-                new Orders { ID = 1, OrderDate = new DateTime(2016, 4, 28), PaymentMethodID = paymentMethodIDs[0], UserID = userIDs[0], Total = 54.95 },
-                new Orders { ID = 2, OrderDate = new DateTime(2016, 4, 29), PaymentMethodID = paymentMethodIDs[1], UserID = userIDs[0], Total = 28.97 },
-                new Orders { ID = 3, OrderDate = new DateTime(2016, 4, 30), PaymentMethodID = paymentMethodIDs[0], UserID = userIDs[1], Total = 80.91 }
+                new Orders { ID = 1, OrderDate = new DateTime(2016, 4, 28), PaymentMethodID = paymentMethodIDs[0], UserID = userIDs[0], Total = 54.95m },
+                new Orders { ID = 2, OrderDate = new DateTime(2016, 4, 29), PaymentMethodID = paymentMethodIDs[1], UserID = userIDs[0], Total = 28.97m },
+                new Orders { ID = 3, OrderDate = new DateTime(2016, 4, 30), PaymentMethodID = paymentMethodIDs[0], UserID = userIDs[1], Total = 80.91m }
                 );
             SaveChanges(context);
 
@@ -175,10 +176,10 @@ namespace RPGSite.Migrations
 
             context.OrderItems.AddOrUpdate(
                 oi => oi.ID,
-                new OrderItems { ID = 1, EquipmentID = equipmentIDs[0], OrderID = orderIDs[0], Quantity = 5, Total = 54.95 },
-                new OrderItems { ID = 2, EquipmentID = equipmentIDs[0], OrderID = orderIDs[1], Quantity = 1, Total = 10.99 },
-                new OrderItems { ID = 3, EquipmentID = equipmentIDs[1], OrderID = orderIDs[1], Quantity = 2, Total = 17.98 },
-                new OrderItems { ID = 4, EquipmentID = equipmentIDs[1], OrderID = orderIDs[2], Quantity = 9, Total = 80.91 }
+                new OrderItems { ID = 1, EquipmentID = equipmentIDs[0], OrderID = orderIDs[0], Quantity = 5, Total = 54.95m },
+                new OrderItems { ID = 2, EquipmentID = equipmentIDs[0], OrderID = orderIDs[1], Quantity = 1, Total = 10.99m },
+                new OrderItems { ID = 3, EquipmentID = equipmentIDs[1], OrderID = orderIDs[1], Quantity = 2, Total = 17.98m },
+                new OrderItems { ID = 4, EquipmentID = equipmentIDs[1], OrderID = orderIDs[2], Quantity = 9, Total = 80.91m }
                 );
 
             SaveChanges(context);

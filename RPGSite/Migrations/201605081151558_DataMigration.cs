@@ -8,36 +8,51 @@ namespace RPGSite.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Comments",
+                "dbo.Carts",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        Comment = c.String(nullable: false, maxLength: 255),
-                        Created = c.DateTime(nullable: false),
-                        PostID = c.Int(nullable: false),
-                        UserID = c.String(maxLength: 128),
+                        RecordID = c.Int(nullable: false, identity: true),
+                        CartID = c.String(),
+                        EquipmentID = c.Int(nullable: false),
+                        Count = c.Int(nullable: false),
+                        DateCreated = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Posts", t => t.PostID, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserID)
-                .Index(t => t.PostID)
-                .Index(t => t.UserID);
+                .PrimaryKey(t => t.RecordID)
+                .ForeignKey("dbo.Equipments", t => t.EquipmentID, cascadeDelete: true)
+                .Index(t => t.EquipmentID);
             
             CreateTable(
-                "dbo.Posts",
+                "dbo.Equipments",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false, maxLength: 100),
-                        Description = c.String(nullable: false, maxLength: 3000),
-                        Created = c.DateTime(nullable: false),
-                        Updated = c.DateTime(nullable: false),
-                        IsNews = c.Boolean(nullable: false),
-                        UserID = c.String(maxLength: 128),
+                        Title = c.String(nullable: false, maxLength: 20),
+                        Description = c.String(nullable: false, maxLength: 500),
+                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Picture = c.String(nullable: false),
+                        TypeID = c.Int(nullable: false),
+                        RarityID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.EquipmentRarities", t => t.RarityID, cascadeDelete: true)
+                .ForeignKey("dbo.EquipmentTypes", t => t.TypeID, cascadeDelete: true)
+                .Index(t => t.TypeID)
+                .Index(t => t.RarityID);
+            
+            CreateTable(
+                "dbo.Inventories",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Quantity = c.Int(nullable: false),
+                        UserID = c.String(maxLength: 128),
+                        EquipmentID = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Equipments", t => t.EquipmentID, cascadeDelete: true)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserID)
-                .Index(t => t.UserID);
+                .Index(t => t.UserID)
+                .Index(t => t.EquipmentID);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -73,6 +88,38 @@ namespace RPGSite.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
+                "dbo.Comments",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Comment = c.String(nullable: false, maxLength: 255),
+                        Created = c.DateTime(nullable: false),
+                        PostID = c.Int(nullable: false),
+                        UserID = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Posts", t => t.PostID, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserID)
+                .Index(t => t.PostID)
+                .Index(t => t.UserID);
+            
+            CreateTable(
+                "dbo.Posts",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false, maxLength: 100),
+                        Description = c.String(nullable: false, maxLength: 3000),
+                        Created = c.DateTime(nullable: false),
+                        Updated = c.DateTime(nullable: false),
+                        IsNews = c.Boolean(nullable: false),
+                        UserID = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserID)
+                .Index(t => t.UserID);
+            
+            CreateTable(
                 "dbo.Events",
                 c => new
                     {
@@ -103,37 +150,16 @@ namespace RPGSite.Migrations
                 .Index(t => t.UserID);
             
             CreateTable(
-                "dbo.Inventories",
+                "dbo.AspNetUserLogins",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        Quantity = c.Int(nullable: false),
-                        UserID = c.String(maxLength: 128),
-                        EquipmentID = c.Int(nullable: false),
+                        LoginProvider = c.String(nullable: false, maxLength: 128),
+                        ProviderKey = c.String(nullable: false, maxLength: 128),
+                        UserId = c.String(nullable: false, maxLength: 128),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Equipments", t => t.EquipmentID, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserID)
-                .Index(t => t.UserID)
-                .Index(t => t.EquipmentID);
-            
-            CreateTable(
-                "dbo.Equipments",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false, maxLength: 20),
-                        Description = c.String(nullable: false, maxLength: 500),
-                        Price = c.Double(nullable: false),
-                        Picture = c.String(nullable: false),
-                        TypeID = c.Int(nullable: false),
-                        RarityID = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.EquipmentRarities", t => t.RarityID, cascadeDelete: true)
-                .ForeignKey("dbo.EquipmentTypes", t => t.TypeID, cascadeDelete: true)
-                .Index(t => t.TypeID)
-                .Index(t => t.RarityID);
+                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.OfferedItems",
@@ -180,28 +206,12 @@ namespace RPGSite.Migrations
                 .Index(t => t.UserID);
             
             CreateTable(
-                "dbo.OrderItems",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        Quantity = c.Int(nullable: false),
-                        Total = c.Double(nullable: false),
-                        EquipmentID = c.Int(nullable: false),
-                        OrderID = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Equipments", t => t.EquipmentID, cascadeDelete: true)
-                .ForeignKey("dbo.Orders", t => t.OrderID, cascadeDelete: true)
-                .Index(t => t.EquipmentID)
-                .Index(t => t.OrderID);
-            
-            CreateTable(
                 "dbo.Orders",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
                         OrderDate = c.DateTime(nullable: false),
-                        Total = c.Double(nullable: false),
+                        Total = c.Decimal(nullable: false, precision: 18, scale: 2),
                         UserID = c.String(maxLength: 128),
                         PaymentMethodID = c.Int(nullable: false),
                     })
@@ -212,6 +222,22 @@ namespace RPGSite.Migrations
                 .Index(t => t.PaymentMethodID);
             
             CreateTable(
+                "dbo.OrderItems",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Quantity = c.Int(nullable: false),
+                        Total = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        EquipmentID = c.Int(nullable: false),
+                        OrderID = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Equipments", t => t.EquipmentID, cascadeDelete: true)
+                .ForeignKey("dbo.Orders", t => t.OrderID, cascadeDelete: true)
+                .Index(t => t.EquipmentID)
+                .Index(t => t.OrderID);
+            
+            CreateTable(
                 "dbo.PaymentMethods",
                 c => new
                     {
@@ -219,36 +245,6 @@ namespace RPGSite.Migrations
                         Method = c.String(nullable: false, maxLength: 50),
                     })
                 .PrimaryKey(t => t.ID);
-            
-            CreateTable(
-                "dbo.EquipmentRarities",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        Rarity = c.String(nullable: false, maxLength: 10),
-                    })
-                .PrimaryKey(t => t.ID);
-            
-            CreateTable(
-                "dbo.EquipmentTypes",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        Type = c.String(nullable: false, maxLength: 20),
-                    })
-                .PrimaryKey(t => t.ID);
-            
-            CreateTable(
-                "dbo.AspNetUserLogins",
-                c => new
-                    {
-                        LoginProvider = c.String(nullable: false, maxLength: 128),
-                        ProviderKey = c.String(nullable: false, maxLength: 128),
-                        UserId = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.RecievedMessages",
@@ -293,6 +289,24 @@ namespace RPGSite.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.EquipmentRarities",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Rarity = c.String(nullable: false, maxLength: 10),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
+                "dbo.EquipmentTypes",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Type = c.String(nullable: false, maxLength: 20),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -307,15 +321,13 @@ namespace RPGSite.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Carts", "EquipmentID", "dbo.Equipments");
+            DropForeignKey("dbo.Equipments", "TypeID", "dbo.EquipmentTypes");
+            DropForeignKey("dbo.Equipments", "RarityID", "dbo.EquipmentRarities");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.RecievedMessages", "UserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.SentMessages", "UserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.RecievedMessages", "SentMessageID", "dbo.SentMessages");
-            DropForeignKey("dbo.Posts", "UserID", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Inventories", "UserID", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Equipments", "TypeID", "dbo.EquipmentTypes");
-            DropForeignKey("dbo.Equipments", "RarityID", "dbo.EquipmentRarities");
             DropForeignKey("dbo.Orders", "UserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.Orders", "PaymentMethodID", "dbo.PaymentMethods");
             DropForeignKey("dbo.OrderItems", "OrderID", "dbo.Orders");
@@ -326,61 +338,66 @@ namespace RPGSite.Migrations
             DropForeignKey("dbo.WantedItems", "ItemID", "dbo.Equipments");
             DropForeignKey("dbo.OfferedItems", "TradeID", "dbo.Trades");
             DropForeignKey("dbo.OfferedItems", "ItemID", "dbo.Equipments");
-            DropForeignKey("dbo.Inventories", "EquipmentID", "dbo.Equipments");
+            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Inventories", "UserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.Galleries", "UserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.Events", "UserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.Comments", "UserID", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Posts", "UserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.Comments", "PostID", "dbo.Posts");
+            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Inventories", "EquipmentID", "dbo.Equipments");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.SentMessages", new[] { "UserID" });
             DropIndex("dbo.RecievedMessages", new[] { "UserID" });
             DropIndex("dbo.RecievedMessages", new[] { "SentMessageID" });
-            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.Orders", new[] { "PaymentMethodID" });
-            DropIndex("dbo.Orders", new[] { "UserID" });
             DropIndex("dbo.OrderItems", new[] { "OrderID" });
             DropIndex("dbo.OrderItems", new[] { "EquipmentID" });
+            DropIndex("dbo.Orders", new[] { "PaymentMethodID" });
+            DropIndex("dbo.Orders", new[] { "UserID" });
             DropIndex("dbo.WantedItems", new[] { "UserID" });
             DropIndex("dbo.WantedItems", new[] { "ItemID" });
             DropIndex("dbo.WantedItems", new[] { "TradeID" });
             DropIndex("dbo.OfferedItems", new[] { "UserID" });
             DropIndex("dbo.OfferedItems", new[] { "ItemID" });
             DropIndex("dbo.OfferedItems", new[] { "TradeID" });
-            DropIndex("dbo.Equipments", new[] { "RarityID" });
-            DropIndex("dbo.Equipments", new[] { "TypeID" });
-            DropIndex("dbo.Inventories", new[] { "EquipmentID" });
-            DropIndex("dbo.Inventories", new[] { "UserID" });
+            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.Galleries", new[] { "UserID" });
             DropIndex("dbo.Events", new[] { "UserID" });
-            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Posts", new[] { "UserID" });
             DropIndex("dbo.Comments", new[] { "UserID" });
             DropIndex("dbo.Comments", new[] { "PostID" });
+            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.Inventories", new[] { "EquipmentID" });
+            DropIndex("dbo.Inventories", new[] { "UserID" });
+            DropIndex("dbo.Equipments", new[] { "RarityID" });
+            DropIndex("dbo.Equipments", new[] { "TypeID" });
+            DropIndex("dbo.Carts", new[] { "EquipmentID" });
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.EquipmentTypes");
+            DropTable("dbo.EquipmentRarities");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.SentMessages");
             DropTable("dbo.RecievedMessages");
-            DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.EquipmentTypes");
-            DropTable("dbo.EquipmentRarities");
             DropTable("dbo.PaymentMethods");
-            DropTable("dbo.Orders");
             DropTable("dbo.OrderItems");
+            DropTable("dbo.Orders");
             DropTable("dbo.WantedItems");
             DropTable("dbo.Trades");
             DropTable("dbo.OfferedItems");
-            DropTable("dbo.Equipments");
-            DropTable("dbo.Inventories");
+            DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.Galleries");
             DropTable("dbo.Events");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUsers");
             DropTable("dbo.Posts");
             DropTable("dbo.Comments");
+            DropTable("dbo.AspNetUserClaims");
+            DropTable("dbo.AspNetUsers");
+            DropTable("dbo.Inventories");
+            DropTable("dbo.Equipments");
+            DropTable("dbo.Carts");
         }
     }
 }

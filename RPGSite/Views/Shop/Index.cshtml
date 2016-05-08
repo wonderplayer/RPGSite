@@ -1,0 +1,60 @@
+﻿@model IEnumerable<RPGSite.Models.Equipment>
+
+@{
+    ViewBag.Title = "Shop";
+}
+
+<h2>Shop</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Rarity.Rarity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rarity.Rarity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            <img src="~/Images/@item.Picture" alt="Picture" />
+        </td>
+        <td>
+            <p class="button">
+                @Html.ActionLink("Add To Cart", "AddToCart", new { controller = "ShoppingCart", id = item.ID })
+            </p>
+        </td>
+    </tr>
+}
+
+</table>

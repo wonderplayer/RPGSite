@@ -12,7 +12,7 @@ namespace RPGSite.Models
         public DateTime OrderDate { get; set; }
 
         [DataType(DataType.Currency)]
-        public double Total { get; set; }
+        public decimal Total { get; set; }
 
         public virtual string UserID { get; set; }
 

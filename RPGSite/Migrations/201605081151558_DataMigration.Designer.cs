@@ -13,7 +13,7 @@ namespace RPGSite.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201604250819158_DataMigration"; }
+            get { return "201605081151558_DataMigration"; }
         }
         
         string IMigrationMetadata.Source
