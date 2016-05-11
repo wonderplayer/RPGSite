@@ -23,8 +23,8 @@ namespace RPGSite.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-        var passwordHash = new PasswordHasher();
-            string password = passwordHash.HashPassword("Test112");
+            var passwordHash = new PasswordHasher();
+            string password = passwordHash.HashPassword("Test!!2");
             context.Roles.AddOrUpdate(
                 r => r.Name,
                 new IdentityRole { Name = "Admin" },
@@ -34,9 +34,9 @@ namespace RPGSite.Migrations
 
             context.Users.AddOrUpdate(
                 u => u.UserName,
-                new ApplicationUser { UserName = "Admin", Email = "admin@admin.com", PasswordHash = password },
-                new ApplicationUser { UserName = "Roland", Email = "roland@roland.com", PasswordHash = password },
-                new ApplicationUser { UserName = "Edgar", Email = "edgar@edgar.com", PasswordHash = password }
+                new ApplicationUser { UserName = "Admin", Email = "admin@admin.com", PasswordHash = password, SecurityStamp = Guid.NewGuid().ToString() },
+                new ApplicationUser { UserName = "Roland", Email = "roland@roland.com", PasswordHash = password, SecurityStamp = Guid.NewGuid().ToString() },
+                new ApplicationUser { UserName = "Edgar", Email = "edgar@edgar.com", PasswordHash = password, SecurityStamp = Guid.NewGuid().ToString() }
                 );
             SaveChanges(context);
 
@@ -69,9 +69,9 @@ namespace RPGSite.Migrations
 
             context.Equipment.AddOrUpdate(
                 e => e.Title,
-                new Equipment { ID = 1, Title = "Dragon sword", Description = "Sword form dragons skin", Price = 10.99m, TypeID = typeIDs[0], RarityID = rarityIDs[0], Picture = "\\Swords\\Sword.jpg" },
-                new Equipment { ID = 2, Title = "Dragons shield", Description = "Shield form dragons skin", Price = 8.99m, TypeID = typeIDs[1], RarityID = rarityIDs[0], Picture = "\\Shields\\Shield.jpg" },
-                new Equipment { ID = 3, Title = "Warriors magic sword", Description = "Sword of mighty magic warrior", Price = 20.99m, TypeID = typeIDs[0], RarityID = rarityIDs[1], Picture = "\\Swords\\GuardianAngelSword.gif" }
+                new Equipment { ID = 1, Title = "Dragon sword", Description = "Sword form dragons skin", Price = 10.99m, TypeID = typeIDs[0], RarityID = rarityIDs[0], Picture = "\\Sword\\Sword.jpg" },
+                new Equipment { ID = 2, Title = "Dragons shield", Description = "Shield form dragons skin", Price = 8.99m, TypeID = typeIDs[1], RarityID = rarityIDs[0], Picture = "\\Shield\\Shield.jpg" },
+                new Equipment { ID = 3, Title = "Warriors magic sword", Description = "Sword of mighty magic warrior", Price = 20.99m, TypeID = typeIDs[0], RarityID = rarityIDs[1], Picture = "\\Sword\\GuardianAngelSword.gif" }
                 );
             SaveChanges(context);
 

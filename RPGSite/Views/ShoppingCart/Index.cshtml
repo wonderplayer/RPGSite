@@ -1,6 +1,6 @@
 ﻿@model RPGSite.ViewModels.ShoppingCartViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cart";
 }
 <script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -43,6 +43,9 @@
             Equipment Name
         </th>
         <th>
+            Rarity
+        </th>
+        <th>
             Price (each)
         </th>
         <th>
@@ -55,7 +58,10 @@
     {
         <tr id="row-@item.RecordID">
             <td>
-                @Html.ActionLink(item.Equipment.Title, "Details", "Equipments", new { id = item.EquipmentID}, null)
+                @item.Equipment.Title
+            </td>
+            <td>
+                @item.Equipment.Rarity.Rarity
             </td>
             <td>
                 @item.Equipment.Price

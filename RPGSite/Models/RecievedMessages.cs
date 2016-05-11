@@ -11,9 +11,9 @@ namespace RPGSite.Models
         [ForeignKey("SentMessageID")]
         public SentMessages SentMessage { get; set; }
 
-        public virtual string UserID { get; set; }
+        public string UserID { get; set; }
 
         [ForeignKey("UserID")]
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

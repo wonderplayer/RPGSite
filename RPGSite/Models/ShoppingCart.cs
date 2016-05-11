@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using RPGSite.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -120,6 +123,24 @@ namespace RPGSite.Models
                     Quantity = item.Count,
                     Total = item.Count * item.Equipment.Price    //Maybe need to change to unit price not total price
                 };
+
+                var inventoryItem = db.Inventories.Where(i => i.UserID == order.UserID && i.EquipmentID == item.EquipmentID).FirstOrDefault();
+
+                if (inventoryItem != null)
+                {
+                    inventoryItem.Quantity += item.Count;
+                    db.Entry(inventoryItem).State = EntityState.Modified;
+                }
+                else
+                {
+                    inventoryItem = new Inventories
+                    {
+                        EquipmentID = item.EquipmentID,
+                        Quantity = item.Count,
+                        UserID = order.UserID
+                    };
+                    db.Inventories.Add(inventoryItem);
+                }
                 //Set the order total of the shopping cart
                 orderTotal += (item.Count * item.Equipment.Price);
 

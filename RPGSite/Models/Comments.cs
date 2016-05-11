@@ -14,15 +14,15 @@ namespace RPGSite.Models
 
         public DateTime Created { get; set; }
 
-        public virtual int PostID { get; set; }
+        public int PostID { get; set; }
 
         [ForeignKey("PostID")]
-        public Posts Post { get; set; }
+        public virtual Posts Post { get; set; }
 
-        public virtual string UserID { get; set; }
+        public string UserID { get; set; }
 
         [ForeignKey("UserID")]
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
     }
 }

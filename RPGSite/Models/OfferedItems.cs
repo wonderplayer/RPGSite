@@ -6,19 +6,19 @@ namespace RPGSite.Models
     {
         public int ID { get; set; }
 
-        public virtual int TradeID { get; set; }
+        public int TradeID { get; set; }
 
         [ForeignKey("TradeID")]
-        public Trades Trade { get; set; }
+        public virtual Trades Trade { get; set; }
 
-        public virtual int ItemID { get; set; }
+        public int ItemID { get; set; }
 
         [ForeignKey("ItemID")]
-        public Equipment Equipment { get; set; }
+        public virtual Equipment Equipment { get; set; }
 
-        public virtual string UserID { get; set; }
+        public string UserID { get; set; }
 
         [ForeignKey("UserID")]
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

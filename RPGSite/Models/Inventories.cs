@@ -8,14 +8,14 @@ namespace RPGSite.Models
 
         public int Quantity { get; set; }
 
-        public virtual string UserID { get; set; }
+        public string UserID { get; set; }
 
         [ForeignKey("UserID")]
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
-        public virtual int EquipmentID { get; set; }
+        public int EquipmentID { get; set; }
 
         [ForeignKey("EquipmentID")]
-        public Equipment Equipment { get; set; }
+        public virtual Equipment Equipment { get; set; }
     }
 }

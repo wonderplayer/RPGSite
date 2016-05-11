@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using RPGSite.Models;
 using System.Web;
 using System.IO;
+using RPGSite.ViewModels;
 
 namespace RPGSite.Controllers
 {
@@ -86,7 +87,19 @@ namespace RPGSite.Controllers
             ViewBag.RarityID = new SelectList(db.EquipmentRarities, "ID", "Rarity", equipment.RarityID);
             ViewBag.TypeID = new SelectList(db.EquipmentTypes, "ID", "Type", equipment.TypeID);
             ViewBag.PicturePath = Path.Combine(Server.MapPath("~/images/"), equipment.Picture);
-            return View(equipment);
+            EditEquipmentViewModel editEquipment = new EditEquipmentViewModel
+            {
+                ID = equipment.ID,
+                Title = equipment.Title,
+                Description = equipment.Description,
+                Picture = equipment.Picture,
+                Price = equipment.Price,
+                RarityID = equipment.RarityID,
+                TypeID = equipment.TypeID,
+                Rarity = equipment.Rarity,
+                Type = equipment.Type
+            };
+            return View(editEquipment);
         }
 
         // POST: Equipments/Edit/5
@@ -94,21 +107,42 @@ namespace RPGSite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] Equipment equipment, HttpPostedFileBase Picture, string currentPicturePath)
+        public ActionResult Edit([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] EditEquipmentViewModel editedEquipment, HttpPostedFileBase Picture, string currentPicturePath)
         {
             if (Picture == null)
             {
-                equipment.Picture = currentPicturePath;
+                editedEquipment.Picture = currentPicturePath;
+            }
+            else
+            {
+                var picture = Path.GetFileName(Picture.FileName);
+                var folder = db.EquipmentTypes.Find(editedEquipment.TypeID).Type.ToString();
+                var databasePath = folder + "/" + picture;
+                editedEquipment.Picture = databasePath;
+                var path = Path.Combine(Server.MapPath("~/images/"), databasePath);
+                Picture.SaveAs(path);
             }
             if (ModelState.IsValid)
             {
+                Equipment equipment = new Equipment
+                {
+                    ID = editedEquipment.ID,
+                    Title = editedEquipment.Title,
+                    Description = editedEquipment.Description,
+                    RarityID = editedEquipment.RarityID,
+                    TypeID = editedEquipment.TypeID,
+                    Picture = editedEquipment.Picture,
+                    Price = editedEquipment.Price,
+                    Rarity = editedEquipment.Rarity,
+                    Type = editedEquipment.Type
+                };
                 db.Entry(equipment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RarityID = new SelectList(db.EquipmentRarities, "ID", "Rarity", equipment.RarityID);
-            ViewBag.TypeID = new SelectList(db.EquipmentTypes, "ID", "Type", equipment.TypeID);
-            return View(equipment);
+            ViewBag.RarityID = new SelectList(db.EquipmentRarities, "ID", "Rarity", editedEquipment.RarityID);
+            ViewBag.TypeID = new SelectList(db.EquipmentTypes, "ID", "Type", editedEquipment.TypeID);
+            return View(editedEquipment);
         }
 
         // GET: Equipments/Delete/5

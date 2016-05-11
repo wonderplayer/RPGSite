@@ -45,7 +45,8 @@ namespace RPGSite.Controllers
             catch
             {
                 //Invalid - redisplay with errors
-                return View(order);
+                ViewBag.PaymentMethodID = new SelectList(db.PaymentMethods, "ID", "Method");
+                return View();
             }    
         }
 

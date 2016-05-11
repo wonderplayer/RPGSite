@@ -1,4 +1,4 @@
-﻿@model RPGSite.Models.Equipment
+﻿@model RPGSite.ViewModels.EditEquipmentViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -7,7 +7,7 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Equipments", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -45,6 +45,7 @@
             @Html.LabelFor(model => model.Picture, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <img src="~/images/@Model.Picture" alt="Picture" />
+                <input type="text" name="currentPicturePath" value="@Model.Picture" />
                 @Html.TextBoxFor(model => model.Picture, new { type = "file", htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Picture, "", new { @class = "text-danger" })
             </div>

@@ -14,15 +14,15 @@ namespace RPGSite.Models
         [DataType(DataType.Currency)]
         public decimal Total { get; set; }
 
-        public virtual string UserID { get; set; }
+        public string UserID { get; set; }
 
         [ForeignKey("UserID")]
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
-        public virtual int PaymentMethodID { get; set; }
+        public int PaymentMethodID { get; set; }
 
         [ForeignKey("PaymentMethodID")]
-        public PaymentMethods PaymentMethod { get; set; }
+        public virtual PaymentMethods PaymentMethod { get; set; }
 
         public List<OrderItems> OrderItems { get; set; }
     }

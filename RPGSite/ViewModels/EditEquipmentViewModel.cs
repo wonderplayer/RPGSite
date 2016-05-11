@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using RPGSite.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RPGSite.Models
+namespace RPGSite.ViewModels
 {
-    public class Equipment
+    public class EditEquipmentViewModel
     {
         public int ID { get; set; }
 
@@ -19,7 +19,6 @@ namespace RPGSite.Models
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
-        [Required]
         public string Picture { get; set; }
 
         [Required]
@@ -33,13 +32,5 @@ namespace RPGSite.Models
 
         [ForeignKey("RarityID")]
         public virtual EquipmentRarities Rarity { get; set; }
-
-        public List<OrderItems> OrderItems { get; set; }
-
-        public List<OfferedItems> OfferedForTrade { get; set; }
-
-        public List<WantedItems> WantedForTrade { get; set; }
-
-        public List<Inventories> Inventory { get; set; }
     }
 }

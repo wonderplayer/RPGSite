@@ -27,10 +27,10 @@ namespace RPGSite.Models
         [Required]
         public DateTime EndDate { get; set; }
 
-        public virtual string UserID { get; set; }
+        public string UserID { get; set; }
 
         [ForeignKey("UserID")]
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
     }
 }
