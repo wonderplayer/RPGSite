@@ -19,7 +19,7 @@ namespace RPGSite.Models
 
         public DateTime Created { get; set; }
 
-        public DateTime Updated { get; set; }
+        public DateTime? Updated { get; set; }
 
         [Required]
         public DateTime StartDate { get; set; }

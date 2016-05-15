@@ -1,4 +1,4 @@
-﻿@model RPGSite.Models.Posts
+﻿@model RPGSite.ViewModels.PostDetailViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,56 +11,74 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
+            @Html.DisplayNameFor(model => model.Post.User.UserName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.Email)
+            @Html.DisplayFor(model => model.Post.User.UserName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Post.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Post.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Post.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Post.Description)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Created)
+            @Html.DisplayNameFor(model => model.Date)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsNews)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsNews)
+            @Html.DisplayFor(model => model.Date)
         </dd>
 
     </dl>
 </div>
+
+<div>
+    <h4>Comments</h4>
+    <hr />
+    @foreach (var comment in Model.Comments)
+    {
+        <h6>@comment.User.UserName</h6>
+        <p>@comment.Comment</p>
+    }
+</div>
+
+@*@{Html.RenderAction("Create", "Comments", new { PostID = Model.ID });}*@
+@using (Html.BeginForm("AddComment", "Posts", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <h5>Add comment</h5>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Comment.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Comment.Comment, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Comment.Comment, "", new { @class = "text-danger" })
+            <p class="text-danger">@ViewBag.Error</p>
+        </div>
+    </div>
+
+    @Html.HiddenFor(model => model.Post.ID)
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+}
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Post.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

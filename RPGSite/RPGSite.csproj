@@ -179,6 +179,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\EquipmentRaritiesController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\EquipmentTypesController.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaymentMethodsController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Global.asax.cs">
@@ -194,6 +196,14 @@
     <Compile Include="Migrations\201605081151558_DataMigration.cs" />
     <Compile Include="Migrations\201605081151558_DataMigration.Designer.cs">
       <DependentUpon>201605081151558_DataMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605150748422_DataMigration1.cs" />
+    <Compile Include="Migrations\201605150748422_DataMigration1.Designer.cs">
+      <DependentUpon>201605150748422_DataMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605150752439_DataMigration2.cs" />
+    <Compile Include="Migrations\201605150752439_DataMigration2.Designer.cs">
+      <DependentUpon>201605150752439_DataMigration2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -221,6 +231,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\EditEquipmentViewModel.cs" />
     <Compile Include="ViewModels\InventoryViewModel.cs" />
+    <Compile Include="ViewModels\PostDetailViewModel.cs" />
     <Compile Include="ViewModels\ShoppingCartRemoveViewModel.cs" />
     <Compile Include="ViewModels\ShoppingCartViewModel.cs" />
   </ItemGroup>
@@ -324,6 +335,7 @@
     <Content Include="Views\Checkout\Payment.cshtml" />
     <Content Include="Views\Checkout\Complete.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Comments\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -339,6 +351,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605081151558_DataMigration.resx">
       <DependentUpon>201605081151558_DataMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605150748422_DataMigration1.resx">
+      <DependentUpon>201605150748422_DataMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605150752439_DataMigration2.resx">
+      <DependentUpon>201605150752439_DataMigration2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
