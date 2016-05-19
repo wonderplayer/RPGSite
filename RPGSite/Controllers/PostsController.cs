@@ -23,31 +23,22 @@ namespace RPGSite.Controllers
             return View(posts.ToList());
         }
 
-        // Really bad. Need to do something about validation correctly. And ofc change the comments section
+        // TODO: Really bad. Need to do something about validation correctly. And ofc change the comments section
         // GET: Posts/Details/5
+        [HttpGet]
         public ActionResult Details(int? id, bool? errors)
         {
             if (errors != null && errors == true)
             {
-                ViewBag.Error = "Comment must be less then 255 symbols long";
+                ViewBag.Error = "Comment must be less than 255 symbols long";
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Posts posts = db.Posts.Find(id);
-            posts.Comments = db.Comments.Where(c => c.PostID == id).ToList();
-            PostDetailViewModel post = new PostDetailViewModel
-            {
-                Comments = posts.Comments,
-                Post = posts,
-                Date = posts.Updated ?? posts.Created
-            };
-            if (posts == null)
-            {
-                return HttpNotFound();
-            }
-            return View(post);
+
+            return CreatePostDetailsView(id, null);
         }
 
         // GET: Posts/Create
@@ -146,24 +137,51 @@ namespace RPGSite.Controllers
         #region My methods
         [Authorize]
         [HttpPost]
-        public ActionResult AddComment(Comments comment, FormCollection values)
+        public ActionResult AddComment(PostDetailViewModel postModel, FormCollection values)
         {
             var isError = true;
-            comment.Created = DateTime.Now;
-            comment.UserID = User.Identity.GetUserId();
-            comment.PostID = int.Parse(values["Post.ID"]);
+            postModel.Comment.Created = DateTime.Now;
+            postModel.Comment.UserID = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
                 isError = false;
                 using (var db = new ApplicationDbContext())
                 {
-                    db.Comments.Add(comment);
+                    db.Comments.Add(postModel.Comment);
                     db.SaveChanges();
                     
                 }
             }
-            return RedirectToAction("Details", new { id = comment.PostID, errors = isError });
 
+            return CreatePostDetailsView(postModel.Comment.PostID, postModel.Comment);
+        }
+
+        private ActionResult CreatePostDetailsView(int? id, Comments comment)
+        {
+            Posts posts = db.Posts.Find(id);
+            posts.Comments = db.Comments.Where(c => c.PostID == id).ToList();
+            if (comment == null)
+            {
+                comment = new Comments
+                {
+                    PostID = (int)id
+                };
+            }
+
+            PostDetailViewModel post = new PostDetailViewModel
+            {
+                Comments = posts.Comments,
+                Comment = comment,
+                Post = posts,
+                Date = posts.Updated ?? posts.Created
+            };
+
+            if (posts == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View("Details", post);
         }
         #endregion
     }

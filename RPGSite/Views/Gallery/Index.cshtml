@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<RPGSite.Models.Gallery>
-
+<link href="~/Content/LightBox/lightbox.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Index";
 }
-
 <h2>Index</h2>
 
 <p>
@@ -12,7 +11,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.User.Email)
+            @Html.DisplayNameFor(model => model.User.UserName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Picture)
@@ -23,23 +22,33 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Picture)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @*<a href="~/Images/@item.Picture" rel="darkbox">
+
+            </a>*@
+                <a href="~/Images/@item.Picture" data-lightbox="pics" data-title="@item.Description">
+                    <img src="~/Images/@item.Picture" alt="Picture" />
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+<div id="darkbox">
+    <div id="darkbox_prev"></div>
+    <div id="darkbox_next"></div>
+    <div id="darkbox-description"></div>
+</div>
+<script src="~/Scripts/Lightbox/lightbox-plus-jquery.js"></script>

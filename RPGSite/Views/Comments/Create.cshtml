@@ -1,6 +1,5 @@
 ﻿@model RPGSite.Models.Comments
-
-@using (Html.BeginForm("Create", "Comments"))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <h5>Add comment</h5>
@@ -12,7 +11,7 @@
             @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
         </div>
     </div>
-
+    @Html.HiddenFor(x => x.PostID)
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Save" class="btn btn-default" />

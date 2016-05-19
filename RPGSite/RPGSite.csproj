@@ -184,6 +184,7 @@
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\EquipmentTypesController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -240,7 +241,12 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Darkbox\darkbox.css" />
+    <Content Include="Content\Darkbox\jquery.darkbox.css" />
+    <Content Include="Content\Darkbox\jquery.darkbox.ie.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\LightBox\lightbox.css" />
+    <Content Include="Content\LightBox\lightbox.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -253,16 +259,22 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Darkbox\darkbox.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\Darkbox\jquery.darkbox.js" />
+    <Content Include="Scripts\Darkbox\jquery.darkbox.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Lightbox\lightbox-plus-jquery.js" />
+    <Content Include="Scripts\Lightbox\lightbox-plus-jquery.min.js" />
+    <Content Include="Scripts\Lightbox\lightbox.js" />
+    <Content Include="Scripts\Lightbox\lightbox.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\MyScripts\MyScript.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -325,11 +337,6 @@
     <Content Include="Views\Posts\Details.cshtml" />
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Posts\Index.cshtml" />
-    <Content Include="Views\Gallery\Create.cshtml" />
-    <Content Include="Views\Gallery\Delete.cshtml" />
-    <Content Include="Views\Gallery\Details.cshtml" />
-    <Content Include="Views\Gallery\Edit.cshtml" />
-    <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Views\PaymentMethods\Create.cshtml" />
     <Content Include="Views\PaymentMethods\Delete.cshtml" />
     <Content Include="Views\PaymentMethods\Details.cshtml" />
@@ -346,9 +353,17 @@
     <Content Include="Views\News\Details.cshtml" />
     <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\Posts\EditorTemplates\Comments.cshtml" />
+    <Content Include="Views\Gallery\Create.cshtml" />
+    <Content Include="Views\Gallery\Delete.cshtml" />
+    <Content Include="Views\Gallery\Details.cshtml" />
+    <Content Include="Views\Gallery\Index.cshtml" />
+    <Content Include="Scripts\Lightbox\lightbox-plus-jquery.min.map" />
+    <Content Include="Scripts\Lightbox\lightbox.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Gallery\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -16,7 +16,7 @@ namespace RPGSite.Controllers
             var newComment = new Comments();
             newComment.PostID = PostID;
 
-            return View(newComment);
+            return PartialView(newComment);
         }
         
         [HttpPost]
