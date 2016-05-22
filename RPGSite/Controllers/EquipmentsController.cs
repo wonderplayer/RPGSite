@@ -9,6 +9,7 @@ using RPGSite.ViewModels;
 
 namespace RPGSite.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class EquipmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

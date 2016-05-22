@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace RPGSite.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class EventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

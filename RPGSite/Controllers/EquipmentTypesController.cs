@@ -10,6 +10,7 @@ using RPGSite.Models;
 
 namespace RPGSite.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class EquipmentTypesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
