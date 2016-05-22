@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using RPGSite.Models;
+using System.Net.Mail;
 
 namespace RPGSite
 {
@@ -18,7 +15,17 @@ namespace RPGSite
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
+            SmtpClient client = new SmtpClient();
+
+            MailMessage mailMessage = new MailMessage();
+            MailAddress mailAddress = new MailAddress("noreply@rpgsite.com", "noreply RPGSite");
+            mailMessage.From = mailAddress;
+            mailMessage.To.Add(message.Destination);
+            mailMessage.Subject = message.Subject;
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = message.Body;
+            client.Send(mailMessage);
+
             return Task.FromResult(0);
         }
     }
@@ -54,7 +61,7 @@ namespace RPGSite
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,
