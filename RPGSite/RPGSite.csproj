@@ -208,6 +208,10 @@
     <Compile Include="Migrations\201605150752439_DataMigration2.Designer.cs">
       <DependentUpon>201605150752439_DataMigration2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605220925215_GalleryTitle.cs" />
+    <Compile Include="Migrations\201605220925215_GalleryTitle.Designer.cs">
+      <DependentUpon>201605220925215_GalleryTitle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cart.cs" />
@@ -351,7 +355,6 @@
     <Content Include="Views\Posts\EditorTemplates\Comments.cshtml" />
     <Content Include="Views\Gallery\Create.cshtml" />
     <Content Include="Views\Gallery\Delete.cshtml" />
-    <Content Include="Views\Gallery\Details.cshtml" />
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Scripts\Lightbox\lightbox-plus-jquery.min.map" />
     <Content Include="Scripts\Lightbox\lightbox.min.map" />
@@ -377,6 +380,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605150752439_DataMigration2.resx">
       <DependentUpon>201605150752439_DataMigration2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605220925215_GalleryTitle.resx">
+      <DependentUpon>201605220925215_GalleryTitle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

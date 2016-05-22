@@ -4,10 +4,12 @@
     ViewBag.Title = "Index";
 }
 <h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}   
 <table class="table">
     <tr>
         <th>
@@ -17,7 +19,7 @@
             @Html.DisplayNameFor(model => model.Picture)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Title)
         </th>
         <th></th>
     </tr>
@@ -29,26 +31,21 @@
                 @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
-                @*<a href="~/Images/@item.Picture" rel="darkbox">
-
-            </a>*@
-                <a href="~/Images/@item.Picture" data-lightbox="pics" data-title="@item.Description">
+                <a href="~/Images/@item.Picture" data-lightbox="pics" data-title="@item.Title">
                     <img src="~/Images/@item.Picture" alt="Picture" />
                 </a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                }
             </td>
         </tr>
     }
 
 </table>
-<div id="darkbox">
-    <div id="darkbox_prev"></div>
-    <div id="darkbox_next"></div>
-    <div id="darkbox-description"></div>
-</div>
 <script src="~/Scripts/Lightbox/lightbox-plus-jquery.js"></script>

@@ -22,35 +22,19 @@ namespace RPGSite.Controllers
             var gallery = db.Gallery.Include(g => g.User);
             return View(gallery.ToList());
         }
-
-        // GET: Galleries/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Gallery gallery = db.Gallery.Find(id);
-            if (gallery == null)
-            {
-                return HttpNotFound();
-            }
-            return View(gallery);
-        }
-
+        [Authorize(Roles = "Admin")]
         // GET: Galleries/Create
         public ActionResult Create()
         {
             return View();
         }
-
-        [Authorize]
+        
         // POST: Galleries/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Picture,Description")] Gallery gallery, HttpPostedFileBase Picture)
+        public ActionResult Create([Bind(Include = "ID,Picture,Title")] Gallery gallery, HttpPostedFileBase Picture)
         {
             gallery.UserID = User.Identity.GetUserId();
             if (ModelState.IsValid)
@@ -72,6 +56,7 @@ namespace RPGSite.Controllers
             return View(gallery);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Galleries/Delete/5
         public ActionResult Delete(int? id)
         {
