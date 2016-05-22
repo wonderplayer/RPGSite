@@ -8,12 +8,10 @@ namespace RPGSite.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Data.Entity.Validation;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Web;
+
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
@@ -32,15 +30,25 @@ namespace RPGSite.Migrations
                 );
             SaveChanges(context);
 
+            ApplicationUser admin = new ApplicationUser
+            {
+                UserName = "Admin",
+                Email = "admin@admin.com",
+                PasswordHash = password,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
             context.Users.AddOrUpdate(
                 u => u.UserName,
-                new ApplicationUser { UserName = "Admin", Email = "admin@admin.com", PasswordHash = password, SecurityStamp = Guid.NewGuid().ToString() },
+                admin,
                 new ApplicationUser { UserName = "Roland", Email = "roland@roland.com", PasswordHash = password, SecurityStamp = Guid.NewGuid().ToString() },
                 new ApplicationUser { UserName = "Edgar", Email = "edgar@edgar.com", PasswordHash = password, SecurityStamp = Guid.NewGuid().ToString() }
                 );
             SaveChanges(context);
 
             var userIDs = getUserIDs(context);
+
+            AddAdminToRole(context, admin.Id);
 
             context.EquipmentRarities.AddOrUpdate(
                 er => er.ID,
@@ -59,13 +67,6 @@ namespace RPGSite.Migrations
             SaveChanges(context);
 
             var typeIDs = getEquipmentTypeIDs(context);
-
-            //Image sword1 = Image.FromFile("D:\\VisualStudio2015\\Projects\\RPGSite\\RPGSite\\Images\\Swords\\Sword.jpg");
-            //Image sword2 = Image.FromFile("D:\\VisualStudio2015\\Projects\\RPGSite\\RPGSite\\Images\\Swords\\GuardianAngelSword.gif");
-            //Image shield1 = Image.FromFile("D:\\VisualStudio2015\\Projects\\RPGSite\\RPGSite\\Images\\Shields\\Shield.jpg");
-            //var convertedSword1 = jpegImageToByteArray(sword1);
-            //var convertedSword2 = jpegImageToByteArray(sword2);
-            //var convertedShield1 = jpegImageToByteArray(shield1);
 
             context.Equipment.AddOrUpdate(
                 e => e.Title,
@@ -185,7 +186,12 @@ namespace RPGSite.Migrations
             SaveChanges(context);
         }
 
-        
+        private void AddAdminToRole(ApplicationDbContext context, string Id)
+        {
+            var store = new UserStore<ApplicationUser>(context);
+            var manager = new UserManager<ApplicationUser>(store);
+            manager.AddToRole(Id, "Admin");
+        }
 
         private void SaveChanges(DbContext context)
         {
@@ -206,37 +212,18 @@ namespace RPGSite.Migrations
                 throw new DbEntityValidationException(
                     "Entity Validation Failed - errors follow:\n" +
                     sb.ToString(), ex
-                ); // Add the original exception as the innerException
+                ); 
             }
         }
 
-        //public byte[] gifImageToByteArray(Image imageIn)
-        //{
-        //    using (var ms = new MemoryStream()) {
-        //        imageIn.Save(ms, ImageFormat.Gif);
-        //        return ms.ToArray();
-        //    }
-        //    //Byte array to image
-        //    //var smthn = new byte[2];
-        //    //using (var ms = new MemoryStream(smthn)) {
-        //    //    var img = Image.FromStream(ms);
-        //    //}
-        //}
-
-        //public byte[] jpegImageToByteArray(Image imageIn)
-        //{
-        //    using (var ms = new MemoryStream()) {
-        //        imageIn.Save(ms, ImageFormat.Jpeg);
-        //        return ms.ToArray();
-        //    }
-        //}
-
+        #region Id getters
         private int[] getOrderIDs(ApplicationDbContext context)
         {
             List<Orders> orders = new List<Orders>();
             orders = context.Orders.ToList();
             var orderIDs = new int[orders.Count];
-            for (int i = 0; i < orders.Count; i++) {
+            for (int i = 0; i < orders.Count; i++)
+            {
                 orderIDs[i] = orders[i].ID;
             }
             return orderIDs;
@@ -247,7 +234,8 @@ namespace RPGSite.Migrations
             List<Trades> trades = new List<Trades>();
             trades = context.Trades.ToList();
             var tradeIDs = new int[trades.Count];
-            for (int i = 0; i < trades.Count; i++) {
+            for (int i = 0; i < trades.Count; i++)
+            {
                 tradeIDs[i] = trades[i].ID;
             }
             return tradeIDs;
@@ -258,7 +246,8 @@ namespace RPGSite.Migrations
             List<SentMessages> sentMessages = new List<SentMessages>();
             sentMessages = context.SentMessages.ToList();
             var sentMessageIDs = new int[sentMessages.Count];
-            for (int i = 0; i < sentMessages.Count; i++) {
+            for (int i = 0; i < sentMessages.Count; i++)
+            {
                 sentMessageIDs[i] = sentMessages[i].ID;
             }
             return sentMessageIDs;
@@ -269,7 +258,8 @@ namespace RPGSite.Migrations
             List<Equipment> equipment = new List<Equipment>();
             equipment = context.Equipment.ToList();
             var equipmentIDs = new int[equipment.Count];
-            for (int i = 0; i < equipment.Count; i++) {
+            for (int i = 0; i < equipment.Count; i++)
+            {
                 equipmentIDs[i] = equipment[i].ID;
             }
             return equipmentIDs;
@@ -281,7 +271,8 @@ namespace RPGSite.Migrations
             List<ApplicationUser> users = new List<ApplicationUser>();
             users = context.Users.ToList();
             var userIDs = new string[users.Count];
-            for (int i = 0; i < users.Count; i++) {
+            for (int i = 0; i < users.Count; i++)
+            {
                 userIDs[i] = users[i].Id;
             }
             return userIDs;
@@ -292,7 +283,8 @@ namespace RPGSite.Migrations
             List<EquipmentTypes> types = new List<EquipmentTypes>();
             types = context.EquipmentTypes.ToList();
             var typeIDs = new int[types.Count];
-            for (int i = 0; i < types.Count; i++) {
+            for (int i = 0; i < types.Count; i++)
+            {
                 typeIDs[i] = types[i].ID;
             }
             return typeIDs;
@@ -303,7 +295,8 @@ namespace RPGSite.Migrations
             List<EquipmentRarities> rarities = new List<EquipmentRarities>();
             rarities = context.EquipmentRarities.ToList();
             var rarityIDs = new int[rarities.Count];
-            for (int i = 0; i < rarities.Count; i++) {
+            for (int i = 0; i < rarities.Count; i++)
+            {
                 rarityIDs[i] = rarities[i].ID;
             }
             return rarityIDs;
@@ -314,7 +307,8 @@ namespace RPGSite.Migrations
             List<Posts> posts = new List<Posts>();
             posts = context.Posts.ToList();
             var postIDs = new int[posts.Count];
-            for (int i = 0; i < posts.Count; i++) {
+            for (int i = 0; i < posts.Count; i++)
+            {
                 postIDs[i] = posts[i].ID;
             }
             return postIDs;
@@ -325,10 +319,13 @@ namespace RPGSite.Migrations
             List<PaymentMethods> paymentMethods = new List<PaymentMethods>();
             paymentMethods = context.PaymentMethods.ToList();
             var pmIDs = new int[paymentMethods.Count];
-            for (int i = 0; i < paymentMethods.Count; i++) {
+            for (int i = 0; i < paymentMethods.Count; i++)
+            {
                 pmIDs[i] = paymentMethods[i].ID;
             }
             return pmIDs;
         }
+        #endregion
+
     }
 }

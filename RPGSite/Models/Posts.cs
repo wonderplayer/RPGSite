@@ -17,8 +17,10 @@ namespace RPGSite.Models
         [StringLength(3000, MinimumLength = 10)]
         public string Description { get; set; }
 
+        [Display(Name = "Date")]
         public DateTime Created { get; set; }
 
+        [Display(Name = "Date")]
         public DateTime? Updated { get; set; }
 
         public bool IsNews { get; set; }

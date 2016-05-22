@@ -234,6 +234,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\EditEquipmentViewModel.cs" />
     <Compile Include="ViewModels\InventoryViewModel.cs" />
+    <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="ViewModels\PostDetailViewModel.cs" />
     <Compile Include="ViewModels\ShoppingCartRemoveViewModel.cs" />
     <Compile Include="ViewModels\ShoppingCartViewModel.cs" />
@@ -241,9 +242,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Darkbox\darkbox.css" />
-    <Content Include="Content\Darkbox\jquery.darkbox.css" />
-    <Content Include="Content\Darkbox\jquery.darkbox.ie.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\LightBox\lightbox.css" />
     <Content Include="Content\LightBox\lightbox.min.css" />
@@ -259,13 +257,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\Darkbox\darkbox.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
-    <Content Include="Scripts\Darkbox\jquery.darkbox.js" />
-    <Content Include="Scripts\Darkbox\jquery.darkbox.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

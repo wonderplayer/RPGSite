@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using RPGSite.Models;
 using Microsoft.AspNet.Identity;
@@ -38,6 +36,7 @@ namespace RPGSite.Controllers
             return View(posts);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: News/Create
         public ActionResult Create()
         {
@@ -64,6 +63,7 @@ namespace RPGSite.Controllers
         }
 
         // GET: News/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -97,6 +97,7 @@ namespace RPGSite.Controllers
         }
 
         // GET: News/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
