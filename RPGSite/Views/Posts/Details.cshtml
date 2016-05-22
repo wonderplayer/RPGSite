@@ -51,14 +51,18 @@
     @foreach (var comment in Model.Comments)
     {
         <h6>@comment.User.UserName</h6>
-        <p>@comment.Comment</p>
+        <p>
+            @comment.Comment
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Delete", "DeleteComment", new { id = comment.ID})
+            }
+        </p>
     }
 </div>
 
 @if (User.Identity.IsAuthenticated)
 {
-    //Html.RenderAction("Create", "Comments", new { PostID = Model.Post.ID });
-
     using (Html.BeginForm("AddComment", "Posts", FormMethod.Post))
     {
         @Html.AntiForgeryToken()

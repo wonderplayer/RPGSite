@@ -25,13 +25,8 @@ namespace RPGSite.Controllers
 
         // GET: Posts/Details/5
         [HttpGet]
-        public ActionResult Details(int? id, bool? errors)
+        public ActionResult Details(int? id)
         {
-            if (errors != null && errors == true)
-            {
-                ViewBag.Error = "Comment must be less than 255 symbols long";
-            }
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -66,18 +61,24 @@ namespace RPGSite.Controllers
         }
 
         // GET: Posts/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Posts posts = db.Posts.Find(id);
             if (posts == null)
             {
                 return HttpNotFound();
             }
-            return View(posts);
+            if (CanDelete(posts))
+            {
+                return View(posts);
+            }
+            return View("Error");
         }
 
         // POST: Posts/Edit/5
@@ -98,6 +99,7 @@ namespace RPGSite.Controllers
         }
 
         // GET: Posts/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -110,7 +112,11 @@ namespace RPGSite.Controllers
             {
                 return HttpNotFound();
             }
-            return View(posts);
+            if (CanDelete(posts))
+            {
+                return View(posts);
+            }
+            return View("Error");
         }
 
         // POST: Posts/Delete/5
@@ -134,6 +140,12 @@ namespace RPGSite.Controllers
         }
 
         #region My methods
+
+        private bool CanDelete(Posts post)
+        {
+            return User.IsInRole("Admin") || User.Identity.GetUserId() == post.UserID;
+        }
+
         [Authorize]
         [HttpPost]
         public ActionResult AddComment(PostDetailViewModel postModel, FormCollection values)
@@ -179,6 +191,20 @@ namespace RPGSite.Controllers
             }
 
             return View("Details", post);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult DeleteComment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Comments comment = db.Comments.Find(id);
+            db.Comments.Remove(comment);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
         #endregion
     }
