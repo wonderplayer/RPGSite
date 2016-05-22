@@ -23,7 +23,6 @@ namespace RPGSite.Controllers
             return View(posts.ToList());
         }
 
-        // TODO: Really bad. Need to do something about validation correctly. And ofc change the comments section
         // GET: Posts/Details/5
         [HttpGet]
         public ActionResult Details(int? id, bool? errors)
@@ -139,12 +138,10 @@ namespace RPGSite.Controllers
         [HttpPost]
         public ActionResult AddComment(PostDetailViewModel postModel, FormCollection values)
         {
-            var isError = true;
             postModel.Comment.Created = DateTime.Now;
             postModel.Comment.UserID = User.Identity.GetUserId();
             if (ModelState.IsValid)
             {
-                isError = false;
                 using (var db = new ApplicationDbContext())
                 {
                     db.Comments.Add(postModel.Comment);
