@@ -47,7 +47,7 @@
             @Html.ActionLink(item.Title, "Details", new { id = item.ID })
         </td>
         <td>
-            @Truncate(@item.Description, 25)
+            @Truncate(@item.Description, 150)
         </td>
         <td>
             @if (item.Updated == null)

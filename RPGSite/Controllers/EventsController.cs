@@ -19,7 +19,7 @@ namespace RPGSite.Controllers
         // GET: Events
         public ActionResult Index()
         {
-            var events = db.Events.Include(e => e.User);
+            var events = db.Events.Include(e => e.User).OrderByDescending(e => e.Created);
             return View(events.ToList());
         }
 

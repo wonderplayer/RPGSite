@@ -87,7 +87,10 @@
     }
 }
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Post.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Post.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

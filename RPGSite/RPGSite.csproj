@@ -401,7 +401,6 @@
     <Content Include="Views\News\Details.cshtml" />
     <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
-    <Content Include="Views\Posts\EditorTemplates\Comments.cshtml" />
     <Content Include="Views\Gallery\Create.cshtml" />
     <Content Include="Views\Gallery\Delete.cshtml" />
     <Content Include="Views\Gallery\Index.cshtml" />

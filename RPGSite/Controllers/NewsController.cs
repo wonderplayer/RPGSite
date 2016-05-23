@@ -16,7 +16,7 @@ namespace RPGSite.Controllers
         // GET: News
         public ActionResult Index()
         {
-            var posts = db.Posts.Where(p => p.IsNews == true).Include(p => p.User);
+            var posts = db.Posts.Where(p => p.IsNews == true).Include(p => p.User).OrderByDescending(p => p.Created);
             return View(posts.ToList());
         }
 
