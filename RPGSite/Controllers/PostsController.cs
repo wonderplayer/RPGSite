@@ -191,8 +191,17 @@ namespace RPGSite.Controllers
             return View("Details", post);
         }
 
+        [HttpPost, ActionName("DeleteComment")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCommentConfirmed(int id)
+        {
+            Comments comment = db.Comments.Find(id);
+            db.Comments.Remove(comment);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = comment.PostID});
+        }
+
         [Authorize(Roles = "Admin")]
-        [HttpPost]
         public ActionResult DeleteComment(int? id)
         {
             if (id == null)
@@ -200,10 +209,13 @@ namespace RPGSite.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Comments comment = db.Comments.Find(id);
-            db.Comments.Remove(comment);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (comment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(comment);
         }
+
         #endregion
     }
 }

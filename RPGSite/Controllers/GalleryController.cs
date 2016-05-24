@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -16,20 +13,20 @@ namespace RPGSite.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Galleries
+        // GET: Gallery
         public ActionResult Index()
         {
             var gallery = db.Gallery.Include(g => g.User);
             return View(gallery.ToList());
         }
         [Authorize(Roles = "Admin")]
-        // GET: Galleries/Create
+        // GET: Gallery/Create
         public ActionResult Create()
         {
             return View();
         }
         
-        // POST: Galleries/Create
+        // POST: Gallery/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -57,7 +54,7 @@ namespace RPGSite.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        // GET: Galleries/Delete/5
+        // GET: Gallery/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -72,7 +69,7 @@ namespace RPGSite.Controllers
             return View(gallery);
         }
 
-        // POST: Galleries/Delete/5
+        // POST: Gallery/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

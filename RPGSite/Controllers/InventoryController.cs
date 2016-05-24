@@ -2,7 +2,6 @@
 using RPGSite.Models;
 using System.Linq;
 using System.Web.Mvc;
-using System.Data.Entity;
 using RPGSite.ViewModels;
 
 namespace RPGSite.Controllers

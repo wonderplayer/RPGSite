@@ -41,5 +41,7 @@ namespace RPGSite.Models
         //public List<WantedItems> WantedForTrade { get; set; }
 
         public List<Inventories> Inventory { get; set; }
+
+        public List<Cart> Carts { get; set; }
     }
 }

@@ -88,6 +88,8 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -388,6 +390,7 @@
     <Content Include="Views\Gallery\Delete.cshtml" />
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Scripts\Lightbox\lightbox.min.map" />
+    <Content Include="Views\Posts\DeleteComment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -405,6 +408,9 @@
     <EmbeddedResource Include="Migrations\201605081151558_DataMigration.resx">
       <DependentUpon>201605081151558_DataMigration.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
