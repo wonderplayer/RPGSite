@@ -111,7 +111,7 @@ namespace RPGSite.Migrations
                         Title = c.String(nullable: false, maxLength: 100),
                         Description = c.String(nullable: false, maxLength: 3000),
                         Created = c.DateTime(nullable: false),
-                        Updated = c.DateTime(nullable: false),
+                        Updated = c.DateTime(),
                         IsNews = c.Boolean(nullable: false),
                         UserID = c.String(maxLength: 128),
                     })
@@ -127,7 +127,7 @@ namespace RPGSite.Migrations
                         Title = c.String(nullable: false, maxLength: 100),
                         Description = c.String(nullable: false, maxLength: 1000),
                         Created = c.DateTime(nullable: false),
-                        Updated = c.DateTime(nullable: false),
+                        Updated = c.DateTime(),
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(nullable: false),
                         UserID = c.String(maxLength: 128),
@@ -142,7 +142,7 @@ namespace RPGSite.Migrations
                     {
                         ID = c.Int(nullable: false, identity: true),
                         Picture = c.String(),
-                        Description = c.String(maxLength: 100),
+                        Title = c.String(maxLength: 50),
                         UserID = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.ID)
@@ -160,50 +160,6 @@ namespace RPGSite.Migrations
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            
-            CreateTable(
-                "dbo.OfferedItems",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        TradeID = c.Int(nullable: false),
-                        ItemID = c.Int(nullable: false),
-                        UserID = c.String(maxLength: 128),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Equipments", t => t.ItemID, cascadeDelete: true)
-                .ForeignKey("dbo.Trades", t => t.TradeID, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserID)
-                .Index(t => t.TradeID)
-                .Index(t => t.ItemID)
-                .Index(t => t.UserID);
-            
-            CreateTable(
-                "dbo.Trades",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        TradeDate = c.DateTime(nullable: false),
-                        Status = c.String(maxLength: 8),
-                    })
-                .PrimaryKey(t => t.ID);
-            
-            CreateTable(
-                "dbo.WantedItems",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        TradeID = c.Int(nullable: false),
-                        ItemID = c.Int(nullable: false),
-                        UserID = c.String(maxLength: 128),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Equipments", t => t.ItemID, cascadeDelete: true)
-                .ForeignKey("dbo.Trades", t => t.TradeID, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserID)
-                .Index(t => t.TradeID)
-                .Index(t => t.ItemID)
-                .Index(t => t.UserID);
             
             CreateTable(
                 "dbo.Orders",
@@ -245,35 +201,6 @@ namespace RPGSite.Migrations
                         Method = c.String(nullable: false, maxLength: 50),
                     })
                 .PrimaryKey(t => t.ID);
-            
-            CreateTable(
-                "dbo.RecievedMessages",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        SentMessageID = c.Int(nullable: false),
-                        UserID = c.String(maxLength: 128),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.SentMessages", t => t.SentMessageID, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserID)
-                .Index(t => t.SentMessageID)
-                .Index(t => t.UserID);
-            
-            CreateTable(
-                "dbo.SentMessages",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        Title = c.String(nullable: false, maxLength: 50),
-                        Message = c.String(nullable: false, maxLength: 500),
-                        DateSent = c.DateTime(nullable: false),
-                        Read = c.Boolean(nullable: false),
-                        UserID = c.String(maxLength: 128),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserID)
-                .Index(t => t.UserID);
             
             CreateTable(
                 "dbo.AspNetUserRoles",
@@ -325,19 +252,10 @@ namespace RPGSite.Migrations
             DropForeignKey("dbo.Equipments", "TypeID", "dbo.EquipmentTypes");
             DropForeignKey("dbo.Equipments", "RarityID", "dbo.EquipmentRarities");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.RecievedMessages", "UserID", "dbo.AspNetUsers");
-            DropForeignKey("dbo.SentMessages", "UserID", "dbo.AspNetUsers");
-            DropForeignKey("dbo.RecievedMessages", "SentMessageID", "dbo.SentMessages");
             DropForeignKey("dbo.Orders", "UserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.Orders", "PaymentMethodID", "dbo.PaymentMethods");
             DropForeignKey("dbo.OrderItems", "OrderID", "dbo.Orders");
             DropForeignKey("dbo.OrderItems", "EquipmentID", "dbo.Equipments");
-            DropForeignKey("dbo.OfferedItems", "UserID", "dbo.AspNetUsers");
-            DropForeignKey("dbo.WantedItems", "UserID", "dbo.AspNetUsers");
-            DropForeignKey("dbo.WantedItems", "TradeID", "dbo.Trades");
-            DropForeignKey("dbo.WantedItems", "ItemID", "dbo.Equipments");
-            DropForeignKey("dbo.OfferedItems", "TradeID", "dbo.Trades");
-            DropForeignKey("dbo.OfferedItems", "ItemID", "dbo.Equipments");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Inventories", "UserID", "dbo.AspNetUsers");
             DropForeignKey("dbo.Galleries", "UserID", "dbo.AspNetUsers");
@@ -350,19 +268,10 @@ namespace RPGSite.Migrations
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.SentMessages", new[] { "UserID" });
-            DropIndex("dbo.RecievedMessages", new[] { "UserID" });
-            DropIndex("dbo.RecievedMessages", new[] { "SentMessageID" });
             DropIndex("dbo.OrderItems", new[] { "OrderID" });
             DropIndex("dbo.OrderItems", new[] { "EquipmentID" });
             DropIndex("dbo.Orders", new[] { "PaymentMethodID" });
             DropIndex("dbo.Orders", new[] { "UserID" });
-            DropIndex("dbo.WantedItems", new[] { "UserID" });
-            DropIndex("dbo.WantedItems", new[] { "ItemID" });
-            DropIndex("dbo.WantedItems", new[] { "TradeID" });
-            DropIndex("dbo.OfferedItems", new[] { "UserID" });
-            DropIndex("dbo.OfferedItems", new[] { "ItemID" });
-            DropIndex("dbo.OfferedItems", new[] { "TradeID" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.Galleries", new[] { "UserID" });
             DropIndex("dbo.Events", new[] { "UserID" });
@@ -380,14 +289,9 @@ namespace RPGSite.Migrations
             DropTable("dbo.EquipmentTypes");
             DropTable("dbo.EquipmentRarities");
             DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.SentMessages");
-            DropTable("dbo.RecievedMessages");
             DropTable("dbo.PaymentMethods");
             DropTable("dbo.OrderItems");
             DropTable("dbo.Orders");
-            DropTable("dbo.WantedItems");
-            DropTable("dbo.Trades");
-            DropTable("dbo.OfferedItems");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.Galleries");
             DropTable("dbo.Events");

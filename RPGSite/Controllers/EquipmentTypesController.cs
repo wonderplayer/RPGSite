@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using RPGSite.Models;
 
@@ -51,6 +47,12 @@ namespace RPGSite.Controllers
         {
             if (ModelState.IsValid)
             {
+                var exists = db.EquipmentTypes.Any(e => e.Type == equipmentTypes.Type);
+                if (exists)
+                {
+                    ViewBag.Exists = "Type already exists in the database.";
+                    return View(equipmentTypes);
+                }
                 db.EquipmentTypes.Add(equipmentTypes);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,6 +85,12 @@ namespace RPGSite.Controllers
         {
             if (ModelState.IsValid)
             {
+                var exists = db.EquipmentTypes.Any(e => e.Type == equipmentTypes.Type);
+                if (exists)
+                {
+                    ViewBag.Exists = "Type already exists in the database.";
+                    return View(equipmentTypes);
+                }
                 db.Entry(equipmentTypes).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

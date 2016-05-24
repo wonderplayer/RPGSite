@@ -114,47 +114,47 @@ namespace RPGSite.Migrations
 
             var paymentMethodIDs = getPaymentMethodIDs(context);
 
-            context.SentMessages.AddOrUpdate(
-                sm => sm.ID,
-                new SentMessages { ID = 1, DateSent = new DateTime(2016, 5, 26), Message = "Hello there.", Title = "How 'ya feelin?", Read = false, UserID = userIDs[0] },
-                new SentMessages { ID = 2, DateSent = new DateTime(2016, 5, 28), Message = "For Freddy?", Title = "Are you ready?", Read = false, UserID = userIDs[0] }
-                );
-            SaveChanges(context);
+            //context.SentMessages.AddOrUpdate(
+            //    sm => sm.ID,
+            //    new SentMessages { ID = 1, DateSent = new DateTime(2016, 5, 26), Message = "Hello there.", Title = "How 'ya feelin?", Read = false, UserID = userIDs[0] },
+            //    new SentMessages { ID = 2, DateSent = new DateTime(2016, 5, 28), Message = "For Freddy?", Title = "Are you ready?", Read = false, UserID = userIDs[0] }
+            //    );
+            //SaveChanges(context);
 
-            var sentMessageIDs = getSentMessageIDs(context);
+            //var sentMessageIDs = getSentMessageIDs(context);
 
-            context.RecievedMessages.AddOrUpdate(
-                rm => rm.ID,
-                new RecievedMessages { ID = 1, UserID = userIDs[1], SentMessageID = sentMessageIDs[0] },
-                new RecievedMessages { ID = 2, UserID = userIDs[1], SentMessageID = sentMessageIDs[0] }
-                );
-            SaveChanges(context);
+            //context.RecievedMessages.AddOrUpdate(
+            //    rm => rm.ID,
+            //    new RecievedMessages { ID = 1, UserID = userIDs[1], SentMessageID = sentMessageIDs[0] },
+            //    new RecievedMessages { ID = 2, UserID = userIDs[1], SentMessageID = sentMessageIDs[0] }
+            //    );
+            //SaveChanges(context);
 
-            context.Trades.AddOrUpdate(
-                t => t.ID,
-                new Trades { ID = 1, TradeDate = new DateTime(2016, 5, 23), Status = "declined" },
-                new Trades { ID = 2, TradeDate = new DateTime(2016, 5, 26), Status = "new" },
-                new Trades { ID = 3, TradeDate = new DateTime(2016, 5, 27), Status = "accepted" }
-                );
-            SaveChanges(context);
+            //context.Trades.AddOrUpdate(
+            //    t => t.ID,
+            //    new Trades { ID = 1, TradeDate = new DateTime(2016, 5, 23), Status = "declined" },
+            //    new Trades { ID = 2, TradeDate = new DateTime(2016, 5, 26), Status = "new" },
+            //    new Trades { ID = 3, TradeDate = new DateTime(2016, 5, 27), Status = "accepted" }
+            //    );
+            //SaveChanges(context);
 
-            var tradeIDs = getTradeIDs(context);
+            //var tradeIDs = getTradeIDs(context);
 
-            context.WantedItems.AddOrUpdate(
-                wi => wi.ID,
-                new WantedItems { ID = 1, ItemID = equipmentIDs[0], TradeID = tradeIDs[0], UserID = userIDs[0] },
-                new WantedItems { ID = 2, ItemID = equipmentIDs[0], TradeID = tradeIDs[1], UserID = userIDs[0] },
-                new WantedItems { ID = 3, ItemID = equipmentIDs[1], TradeID = tradeIDs[2], UserID = userIDs[0] }
-                );
-            SaveChanges(context);
+            //context.WantedItems.AddOrUpdate(
+            //    wi => wi.ID,
+            //    new WantedItems { ID = 1, ItemID = equipmentIDs[0], TradeID = tradeIDs[0], UserID = userIDs[0] },
+            //    new WantedItems { ID = 2, ItemID = equipmentIDs[0], TradeID = tradeIDs[1], UserID = userIDs[0] },
+            //    new WantedItems { ID = 3, ItemID = equipmentIDs[1], TradeID = tradeIDs[2], UserID = userIDs[0] }
+            //    );
+            //SaveChanges(context);
 
-            context.OfferedItems.AddOrUpdate(
-                oi => oi.ID,
-                new OfferedItems { ID = 1, ItemID = equipmentIDs[1], TradeID = tradeIDs[0], UserID = userIDs[1] },
-                new OfferedItems { ID = 2, ItemID = equipmentIDs[1], TradeID = tradeIDs[1], UserID = userIDs[1] },
-                new OfferedItems { ID = 3, ItemID = equipmentIDs[0], TradeID = tradeIDs[2], UserID = userIDs[1] }
-                );
-            SaveChanges(context);
+            //context.OfferedItems.AddOrUpdate(
+            //    oi => oi.ID,
+            //    new OfferedItems { ID = 1, ItemID = equipmentIDs[1], TradeID = tradeIDs[0], UserID = userIDs[1] },
+            //    new OfferedItems { ID = 2, ItemID = equipmentIDs[1], TradeID = tradeIDs[1], UserID = userIDs[1] },
+            //    new OfferedItems { ID = 3, ItemID = equipmentIDs[0], TradeID = tradeIDs[2], UserID = userIDs[1] }
+            //    );
+            //SaveChanges(context);
 
             context.Inventories.AddOrUpdate(
                 i => i.ID,
@@ -229,29 +229,29 @@ namespace RPGSite.Migrations
             return orderIDs;
         }
 
-        private int[] getTradeIDs(ApplicationDbContext context)
-        {
-            List<Trades> trades = new List<Trades>();
-            trades = context.Trades.ToList();
-            var tradeIDs = new int[trades.Count];
-            for (int i = 0; i < trades.Count; i++)
-            {
-                tradeIDs[i] = trades[i].ID;
-            }
-            return tradeIDs;
-        }
+        //private int[] getTradeIDs(ApplicationDbContext context)
+        //{
+        //    List<Trades> trades = new List<Trades>();
+        //    trades = context.Trades.ToList();
+        //    var tradeIDs = new int[trades.Count];
+        //    for (int i = 0; i < trades.Count; i++)
+        //    {
+        //        tradeIDs[i] = trades[i].ID;
+        //    }
+        //    return tradeIDs;
+        //}
 
-        private int[] getSentMessageIDs(ApplicationDbContext context)
-        {
-            List<SentMessages> sentMessages = new List<SentMessages>();
-            sentMessages = context.SentMessages.ToList();
-            var sentMessageIDs = new int[sentMessages.Count];
-            for (int i = 0; i < sentMessages.Count; i++)
-            {
-                sentMessageIDs[i] = sentMessages[i].ID;
-            }
-            return sentMessageIDs;
-        }
+        //private int[] getSentMessageIDs(ApplicationDbContext context)
+        //{
+        //    List<SentMessages> sentMessages = new List<SentMessages>();
+        //    sentMessages = context.SentMessages.ToList();
+        //    var sentMessageIDs = new int[sentMessages.Count];
+        //    for (int i = 0; i < sentMessages.Count; i++)
+        //    {
+        //        sentMessageIDs[i] = sentMessages[i].ID;
+        //    }
+        //    return sentMessageIDs;
+        //}
 
         private int[] getEquipmentIDs(ApplicationDbContext context)
         {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using RPGSite.Models;
 
@@ -49,8 +45,15 @@ namespace RPGSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Rarity")] EquipmentRarities equipmentRarities)
         {
+            ViewBag.Exists = "";
             if (ModelState.IsValid)
             {
+                var exists = db.EquipmentRarities.Any(e => e.Rarity == equipmentRarities.Rarity);
+                if (exists)
+                {
+                    ViewBag.Exists = "Rarity already exists in the database.";
+                    return View(equipmentRarities);
+                }
                 db.EquipmentRarities.Add(equipmentRarities);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,6 +86,12 @@ namespace RPGSite.Controllers
         {
             if (ModelState.IsValid)
             {
+                var exists = db.EquipmentRarities.Any(e => e.Rarity == equipmentRarities.Rarity);
+                if (exists)
+                {
+                    ViewBag.Exists = "Rarity already exists in the database.";
+                    return View(equipmentRarities);
+                }
                 db.Entry(equipmentRarities).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
