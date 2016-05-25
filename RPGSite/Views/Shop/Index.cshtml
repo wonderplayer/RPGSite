@@ -1,6 +1,5 @@
 ﻿@model PagedList.IPagedList<RPGSite.Models.Equipment>
 @using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Shop";
@@ -19,35 +18,33 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Rarity", "Index", new { sortOrder = ViewBag.RaritySortParam, currentFilter=ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParam, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
             @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Description
         </th>
         <th>
-            Price
+            @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParam, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Rarity", "Index", new { sortOrder = ViewBag.RaritySortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Picture
         </th>
-        <th></th>
+        <th>
+            Price
+        </th>
+        <th>
+            Actioin
+        </th>
     </tr>
 
 @foreach (var item in Model)
 {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rarity.Rarity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Type.Type)
-        </td>
+        
+        
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
@@ -55,10 +52,16 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Price)
+            @Html.DisplayFor(modelItem => item.Type.Type)
         </td>
         <td>
-            <img src="~/Images/@item.Picture" alt="Picture" />
+            @Html.DisplayFor(modelItem => item.Rarity.Rarity)
+        </td>
+        <td>
+            <img src="~/Images/@item.Picture" alt="Picture" class="product-image" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
             <p class="button">

@@ -32,11 +32,15 @@
 <h2>
     <em>Review</em> your cart:
 </h2>
-<p class="button">
-    @Html.ActionLink("Checkout>>", "Payment", "Checkout")
-</p>
+@if (Model.CartItems.Count > 0)
+{
+    <p class="button">
+        @Html.ActionLink("Checkout>>", "Payment", "Checkout")
+    </p>
+}
 
-<div id="update-message"></div>
+
+<div id="update-message" class="text-info"></div>
 <table class="table table-striped">
     <tr>
         <th>
@@ -46,10 +50,10 @@
             Rarity
         </th>
         <th>
-            Price (each)
+            Quantity
         </th>
         <th>
-            Quantity
+            Price (each)
         </th>
         <th>
             Action
@@ -65,11 +69,11 @@
             <td>
                 @item.Equipment.Rarity.Rarity
             </td>
-            <td>
-                @item.Equipment.Price
-            </td>
             <td id="item-count-@item.RecordID">
                 @item.Count
+            </td>
+            <td>
+                @item.Equipment.Price
             </td>
             <td>
                 <a href="#" class="RemoveLink" data-id="@item.RecordID">Remove from cart</a>
@@ -77,12 +81,8 @@
         </tr>
     }
     <tr>
-        <td>
+        <td colspan="3">
             Total
-        </td>
-        <td>
-        </td>
-        <td>
         </td>
         <td id="cart-total">
             @Model.CartTotal

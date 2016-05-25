@@ -34,9 +34,9 @@ namespace RPGSite.Controllers
         public ActionResult Create([Bind(Include = "ID,Picture,Title")] Gallery gallery, HttpPostedFileBase Picture)
         {
             gallery.UserID = User.Identity.GetUserId();
-            if (ModelState.IsValid)
+            if (Picture != null && Picture.ContentLength > 0)
             {
-                if (Picture != null && Picture.ContentLength > 0)
+                if (ModelState.IsValid)
                 {
                     var picture = Path.GetFileName(Picture.FileName);
                     var folder = "Gallery";
@@ -44,12 +44,12 @@ namespace RPGSite.Controllers
                     gallery.Picture = databasePath;
                     var path = Path.Combine(Server.MapPath("~/images/"), databasePath);
                     Picture.SaveAs(path);
+                    db.Gallery.Add(gallery);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                db.Gallery.Add(gallery);
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
+            ViewBag.Error = "Picture is not selected.";
             return View(gallery);
         }
 

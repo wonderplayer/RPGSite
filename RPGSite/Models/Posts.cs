@@ -29,6 +29,7 @@ namespace RPGSite.Models
 
         public string UserID { get; set; }
 
+        [Display(Name = "Author")]
         [ForeignKey("UserID")]
         public virtual ApplicationUser User { get; set; }
 

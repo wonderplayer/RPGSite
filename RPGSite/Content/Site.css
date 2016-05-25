@@ -22,3 +22,25 @@ select,
 textarea {
     max-width: 280px;
 }
+
+a{
+    text-decoration: none !important;
+}
+
+a:hover{
+    color:#008966;
+}
+
+article .author, .date{
+    font-size: 11px;
+}
+
+.author, .title{
+    margin-bottom:0;
+}
+.product-image{
+    width:100px;
+}
+.gallery-picture{
+    width:333px;
+}

@@ -1,72 +1,53 @@
 ﻿@model IEnumerable<RPGSite.Models.Posts>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "News";
 }
-@helper Truncate(string input, int length) { 
-    if (input.Length <= length)
-	{
-		 @input
-    }
-    else
-    {
+@helper Truncate(string input, int length)
+{
+if (input.Length <= length)
+{
+        @input
+}
+else
+{
         @input.Substring(0, length)<text>...</text>
-    }
 }
-<h2>Index</h2>
+}
+<h2>@ViewBag.Title</h2>
 @if (User.IsInRole("Admin"))
 {
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Add news", "Create")
     </p>
 }
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th></th>
-    </tr>
-
 @foreach (var item in Model)
 {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.UserName)
-        </td>
-        <td>
+    <article>
+        <h2 class="title">
             @Html.ActionLink(item.Title, "Details", new { id = item.ID })
-        </td>
-        <td>
-            @Truncate(@item.Description, 150)
-        </td>
-        <td>
-            @if (item.Updated == null)
+            @if (User.IsInRole("Admin"))
             {
+                <font size="2">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </font>
+            }
+        </h2> 
+        <p class="author">@Html.DisplayNameFor(model => model.User): @Html.DisplayFor(modelItem => item.User.UserName)</p>
+        <p class="date">
+            Date:
+            @if (item.Updated == null)
+                {
                 @Html.DisplayFor(modle => item.Created)
             }
             else
             {
                 @Html.DisplayFor(modle => item.Updated)
             }
-        </td>
-        @if (User.IsInRole("Admin"))
-        {
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
-        }
-    </tr>
+        </p>
+        <p class="description">@Truncate(item.Description, 150)</p> 
+        <hr />
+    </article>
 }
 
-</table>

@@ -1,54 +1,42 @@
 ﻿@model IEnumerable<RPGSite.Models.Posts>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Posts";
 }
 
-<h2>Index</h2>
-@helper Truncate(string input, int length)
-{
-if (input.Length <= length)
-{
-        @input
-}
-else
-{
-        @input.Substring(0, length)<text>...</text>
-}
-}
+<h2>@ViewBag.Title</h2>
 @if (User.Identity.IsAuthenticated)
 {
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create new post", "Create")
     </p>
 }
-<table class="table">
+<table class="table table-striped">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.UserName)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.User)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Created)
         </th>
-        <th></th>
+        @if (User.IsInRole("Admin"))
+        {
+            <th>
+                Actions
+            </th>
+        }
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.User.UserName)
-        </td>
-        <td>
             @Html.ActionLink(item.Title, "Details", new { id = item.ID })
         </td>
         <td>
-            @Truncate(item.Description, 150)
+            @Html.DisplayFor(modelItem => item.User.UserName)
         </td>
         <td>
             @if (item.Updated == null)

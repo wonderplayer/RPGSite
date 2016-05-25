@@ -3,51 +3,30 @@
 @{
     ViewBag.Title = "Index";
 }
-<h2>Index</h2>
+<h2>Gallery</h2>
 @if (User.IsInRole("Admin"))
 {
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Add picture", "Create")
     </p>
 }   
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Picture)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th></th>
-    </tr>
-
+<div class="container">
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
-            </td>
-            <td>
-                <a href="~/Images/@item.Picture" data-lightbox="pics" data-title="@item.Title">
-                    <img src="~/Images/@item.Picture" alt="Picture" />
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
+        <div class="col-sm-4">
+            <a href="~/Images/@item.Picture" data-lightbox="pics" data-title="@item.Title">
+                <img src="~/Images/@item.Picture" alt="Picture" class="gallery-picture"/>
+            </a>
+            <p>
                 @if (User.IsInRole("Admin"))
                 {
                     @Html.ActionLink("Delete", "Delete", new { id = item.ID })
                 }
-            </td>
-        </tr>
+            </p>
+        </div>
     }
+</div>
 
-</table>
 @section Scripts{
     <script src="~/Scripts/Lightbox/lightbox.js"></script>
 }

@@ -4,69 +4,63 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
-<div>
-    <h4>Posts</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Post.User.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Post.User.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Post.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Post.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Post.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Post.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
-    </dl>
-</div>
+<article>
+    <h2 class="title">
+        @Html.DisplayFor(model => model.Post.Title)
+        @if (User.IsInRole("Admin"))
+            {
+            <font size="2">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Post.ID })
+            </font>
+        }
+    </h2>
+    <p class="author">@Html.DisplayNameFor(model => model.Post.User): @Html.DisplayFor(modelItem => modelItem.Post.User.UserName)</p>
+    <p class="date">
+        Date:
+        @if (Model.Post.Updated == null)
+        {
+            @Html.DisplayFor(model => model.Post.Created)
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Post.Updated)
+        }
+    </p>
+    <p class="description">@Html.DisplayFor(model => model.Post.Description)</p>
+    @Html.ActionLink("Back to List", "Index")
+</article>
+<hr />
 
 <div>
     <h4>Comments</h4>
     <hr />
+    @if (Model.Comments.Count < 1)
+    {
+        <p>No comments yet. Be the first one to comment this post!</p>
+    }
     @foreach (var comment in Model.Comments)
     {
-        <h6>@comment.User.UserName</h6>
+        <h4>@comment.User.UserName</h4>
         <p>
             @comment.Comment
             @if (User.IsInRole("Admin"))
             {
-                @Html.ActionLink("Delete", "DeleteComment", new { id = comment.ID})
+                @Html.ActionLink("Delete", "DeleteComment", new { id = comment.ID })
             }
         </p>
+        <br />
     }
 </div>
 
 @if (User.Identity.IsAuthenticated)
 {
+    <hr />
     using (Html.BeginForm("AddComment", "Posts", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        <h5>Add comment</h5>
+        <h5>Add a comment</h5>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Comment.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -81,16 +75,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Submit" class="btn btn-default">
             </div>
         </div>
     }
 }
-
-@if (User.IsInRole("Admin"))
-{
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Post.ID }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-}
+<hr />

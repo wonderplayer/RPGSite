@@ -4,51 +4,33 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
-<div>
-    <h4>Posts</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.User.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            Date
-        </dt>
-
-        <dd>
-            @ViewBag.Date
-        </dd>
-
-    </dl>
-</div>
-@if (User.IsInRole("Admin"))
-{
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-        @Html.ActionLink("Back to List", "Index")
+<article>
+    <h2 class="title">
+        @Html.DisplayFor(model => model.Title)
+    </h2>
+    <p class="author">@Html.DisplayNameFor(model => model.User): @Html.DisplayFor(modelItem => modelItem.User.UserName)</p>
+    <p class="date">
+        Date:
+        @if (Model.Updated == null)
+        {
+            @Html.DisplayFor(model => model.Created)
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Updated)
+        }
     </p>
-}
-
+    <p class="description">@Html.DisplayFor(model => model.Description)</p>
+    
+</article>
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+        <span>|</span>
+    }
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<hr />

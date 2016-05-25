@@ -4,66 +4,37 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
-<div>
-    <h4>Events</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            Date
-        </dt>
-
-        <dd>
-            @ViewBag.Date
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-    </dl>
-</div>
-@if (User.IsInRole("Admin"))
-{
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-        @Html.ActionLink("Back to List", "Index")
+<article>
+    <h2 class="title">
+        @Html.DisplayFor(model => model.Title)
+    </h2>
+    <p class="author">@Html.DisplayNameFor(model => model.User): @Html.DisplayFor(modelItem => modelItem.User.UserName)</p>
+    <p class="date">
+        Date:
+        @if (Model.Updated == null)
+        {
+            @Html.DisplayFor(model => model.Created)
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Updated)
+        }
     </p>
-}
+    <p class="duration">
+        Starts from: @Html.DisplayFor(modelItem => modelItem.StartDate) |
+        Ends at: @Html.DisplayFor(modelItem => modelItem.EndDate)
+    </p>
+    <p class="description">@Html.DisplayFor(model => model.Description)</p>
+
+</article>
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+        <span>|</span>
+    }
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<hr />
