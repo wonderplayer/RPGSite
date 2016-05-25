@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="RSRPGSite" />
+  <setParameter name="DefaultConnection-Web.config Connection String" value="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\RPGSite.mdf;Initial Catalog=RPGSite;Integrated Security=True" />
+  <setParameter name="DefaultConnection_DatabasePublish-Web.config Connection String" value="DefaultConnection_DatabasePublish.ConnetionString" />
+  <setParameter name="RPGSiteEntities-Web.config Connection String" value="metadata=res://*/Diagramm.Model1.csdl|res://*/Diagramm.Model1.ssdl|res://*/Diagramm.Model1.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDb)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\RPGSite.mdf;initial catalog=RPGSite;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" />
+</parameters>
