@@ -18,9 +18,11 @@ namespace RPGSite.Models
         public string Description { get; set; }
 
         [Display(Name = "Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Created { get; set; }
 
         [Display(Name = "Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? Updated { get; set; }
 
         public bool IsNews { get; set; }

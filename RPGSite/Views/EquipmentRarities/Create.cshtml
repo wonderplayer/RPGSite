@@ -7,15 +7,17 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>EquipmentRarities</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <p class="text-danger">@ViewBag.Exists</p>
+        <p class="text-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> @ViewBag.Exists
+        </p>
         <div class="form-group">
             @Html.LabelFor(model => model.Rarity, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

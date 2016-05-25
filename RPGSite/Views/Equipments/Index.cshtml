@@ -1,6 +1,5 @@
 ﻿@model PagedList.IPagedList<RPGSite.Models.Equipment>
 @using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -74,4 +73,4 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, Page => Url.Action("Index",
-    new { Page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    new { Page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
