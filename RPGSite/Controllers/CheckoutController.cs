@@ -1,8 +1,6 @@
 ﻿using RPGSite.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 
@@ -15,7 +13,14 @@ namespace RPGSite.Controllers
         // GET: Checkout/Payment
         public ActionResult Payment()
         {
+            var cart = ShoppingCart.GetCart(HttpContext);
+            var itemCount = cart.GetCount();
+            if (itemCount < 1)
+            {
+                return RedirectToAction("Index", "ShoppingCart");
+            }
             ViewBag.PaymentMethodID = new SelectList(db.PaymentMethods, "ID", "Method");
+            
             return View();
         }
 

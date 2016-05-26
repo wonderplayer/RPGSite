@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using RPGSite.Models;
+using Microsoft.Owin.Security.Facebook;
+using System.Threading.Tasks;
 
 namespace RPGSite
 {
@@ -54,15 +56,29 @@ namespace RPGSite
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            FacebookAuthenticationOptions facebookOptions = new FacebookAuthenticationOptions
+            {
+                AppId = "1016093051816021",
+                AppSecret = "38a3e3f68598fadbf1561cf07bec3a16",
+                Provider = new FacebookAuthenticationProvider
+                {
+                    OnAuthenticated = context =>
+                    {
+                        context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+                        return Task.FromResult(true);
+                    }
+                }
+            };
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            facebookOptions.Scope.Add("email");
+
+            app.UseFacebookAuthentication(facebookOptions);
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "39114196231-6mstnudvspfq35oc2h133eaa8o0kq32u.apps.googleusercontent.com",
+                ClientSecret = "Do2rQMudTJeJHfC76EuMR-zF"
+            });
         }
     }
 }

@@ -6,7 +6,9 @@ namespace RPGSite.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "User name")]
+        public string UserName { get; set; }
+
         public string Email { get; set; }
     }
 

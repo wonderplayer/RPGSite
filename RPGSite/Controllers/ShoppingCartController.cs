@@ -25,6 +25,7 @@ namespace RPGSite.Controllers
         }
 
         //GET: /Store/AddToCart/5
+        [HttpPost]
         public ActionResult AddToCart(int id)
         {
             //Retrieve the equipment from the database
@@ -35,8 +36,10 @@ namespace RPGSite.Controllers
 
             cart.AddToCart(addedEquipment);
 
+
             //Go back to the main store page for more shopping
-            return RedirectToAction("Index", new { controller = "Shop"});
+            // return RedirectToAction("Index", new { controller = "Shop", message = true });
+            return Json(new { success = true });
         }
 
         //AJAX: /ShoppingCart/RemoveFromCart/5
@@ -47,7 +50,14 @@ namespace RPGSite.Controllers
             var cart = ShoppingCart.GetCart(HttpContext);
 
             //Get the name of the equipment to display confirmation
-            string equipmentName = db.Carts.Single(item => item.RecordID == id).Equipment.Title;
+            var cartItem = db.Carts.SingleOrDefault(item => item.RecordID == id);
+            if (cartItem == null)
+            {
+                return Json(new { });
+            }
+
+            string equipmentName = cartItem.Equipment.Title;
+
 
             //Remove from cart
             int itemCount = cart.RemoveFromCart(id);

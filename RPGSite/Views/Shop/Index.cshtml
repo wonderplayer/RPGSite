@@ -10,8 +10,15 @@
 @using (Html.BeginForm("Index", "Shop", FormMethod.Get))
 {
     <p>
-        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
+        <div class="form-inline">
+            <div class="form-group">
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+        <span class="text-info" id="message">@ViewBag.Message</span>
     </p>
 }
 
@@ -65,8 +72,10 @@
         </td>
         <td>
             <p class="button">
-                @Html.ActionLink("Add To Cart", "AddToCart", new { controller = "ShoppingCart", id = item.ID })
+                @Html.Hidden("itemIdField", item.ID)
+                @Html.ActionLink("Add To Cart", "AddToCart", new { controller = "ShoppingCart", id = item.ID }, new { @class = "CartSubmit" })
             </p>
+            
         </td>
     </tr>
 }
@@ -77,3 +86,26 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 
 @Html.PagedListPager(Model, Page => Url.Action("Index",
     new { Page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
+@section Scripts{
+    <script type="text/javascript">
+        $(".CartSubmit").click(function (e) {
+            e.preventDefault();
+            var id = $(this).siblings("#itemIdField").val();
+            var requestObject = {
+                id: id
+            };
+            $.ajax({
+                url: "/ShoppingCart/AddToCart/5",
+                method: "POST",
+                data: requestObject
+            })
+            .done(function (data) {
+                if (data.success === true) {
+                    $("#message").text("Item has been added to your cart!");
+                    $("#message").show();
+                    $("#message").delay(1000).fadeOut("slow");
+                }
+            });
+        });
+    </script>
+    }

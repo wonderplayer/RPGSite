@@ -11,12 +11,16 @@ namespace RPGSite.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Equipments
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, bool? message)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParam = string.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.RaritySortParam = sortOrder == "Rarity" ? "rarity_desc" : "Rarity";
             ViewBag.TypeSortParam = sortOrder == "Type" ? "type_desc" : "Type";
+            if (message != null && message == true)
+            {
+                ViewBag.Message = "Item has been added to your cart";
+            }
 
             if (searchString != null)
             {

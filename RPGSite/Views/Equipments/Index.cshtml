@@ -5,33 +5,42 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Equipment</h2>
 
 @using (Html.BeginForm("Index", "Equipments", FormMethod.Get))
 {
     <p>
-        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
+        <div class="form-inline">
+            <div class="form-group">
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+        <span class="text-info" id="message">@ViewBag.Message</span>
     </p>
 }
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create new equipment", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.ActionLink("Rarity", "Index", new { sortOrder = ViewBag.RaritySortParam, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParam, currentFilter = ViewBag.CurrentFilter })
-        </th>
+        
         <th>
             @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Description
         </th>
+        <th>
+            @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParam, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Rarity", "Index", new { sortOrder = ViewBag.RaritySortParam, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        
         <th>
             Price
         </th>
@@ -43,12 +52,7 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rarity.Rarity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Type.Type)
-        </td>
+        
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
@@ -56,10 +60,17 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Type.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rarity.Rarity)
+        </td>
+        
+        <td>
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
-            <img src="~/Images/@item.Picture" alt="Image" />
+            <img src="~/Images/@item.Picture" alt="Image" class="product-image" />
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

@@ -5,9 +5,10 @@
 
 <h2>Inventory</h2>
 
-<table>
+<table class="table table-striped">
     <tr>
         <th>Name</th>
+        <th>Picture</th>
         <th>Quantity</th>
     </tr>
     @foreach (var item in Model.Inventory)
@@ -16,12 +17,12 @@
             <td>
                 @item.Equipment.Title
             </td>
+            <td>
+                <img src="~/Images/@item.Equipment.Picture" alt="Picture" class="inventory-picture"/>
+            </td>
             <td id="item-count-@item.ID">
                 @item.Quantity
             </td>
         </tr>
     }
-    <tr>
-        <td></td>
-    </tr>
 </table>

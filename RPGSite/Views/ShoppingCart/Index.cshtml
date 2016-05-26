@@ -15,6 +15,9 @@
                     function (data) {
                         //Successful request get here
                         //Update the page elements
+                        if (data.CartCount < 1) {
+                            $("#checkout").hide();
+                        }
                         if (data.ItemCount == 0) {
                             $("#row-" + data.DeleteId).fadeOut('slow');
                         } else {
@@ -35,13 +38,12 @@
 @if (Model.CartItems.Count > 0)
 {
     <p class="button">
-        @Html.ActionLink("Checkout>>", "Payment", "Checkout")
+        @Html.ActionLink("Checkout>>", "Payment", "Checkout", null, htmlAttributes: new { @id = "checkout" })
     </p>
 }
 
-
 <div id="update-message" class="text-info"></div>
-<table class="table table-striped">
+<table class="table table-striped" id="cartTable">
     <tr>
         <th>
             Equipment Name

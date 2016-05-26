@@ -19,8 +19,10 @@ namespace RPGSite.Models
         [ForeignKey("UserID")]
         public virtual ApplicationUser User { get; set; }
 
+        [Display(Name = "Payment meyhod")]
         public int PaymentMethodID { get; set; }
 
+        
         [ForeignKey("PaymentMethodID")]
         public virtual PaymentMethods PaymentMethod { get; set; }
 
