@@ -1,4 +1,6 @@
-﻿@model IEnumerable<RPGSite.Models.Gallery>
+﻿@model PagedList.IPagedList<RPGSite.Models.Gallery>
+@using PagedList.Mvc;
+
 <link href="~/Content/LightBox/lightbox.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Index";
@@ -26,6 +28,10 @@
         </div>
     }
 </div>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, Page => Url.Action("Index", new { Page }))
 
 @section Scripts{
     <script src="~/Scripts/Lightbox/lightbox.js"></script>

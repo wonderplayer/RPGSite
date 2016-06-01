@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using RPGSite.Models;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using PagedList;
 
 namespace RPGSite.Controllers
 {
@@ -14,10 +15,12 @@ namespace RPGSite.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Gallery
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var gallery = db.Gallery.Include(g => g.User);
-            return View(gallery.ToList());
+            var gallery = db.Gallery.Include(g => g.User).OrderBy(g => g.ID);
+            int pageSize = 6;
+            int pageNumber = (page ?? 1);
+            return View(gallery.ToPagedList(pageNumber, pageSize));
         }
         [Authorize(Roles = "Admin")]
         // GET: Gallery/Create

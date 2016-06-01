@@ -19,7 +19,6 @@ namespace RPGSite.Controllers
             {
                 Inventory = db.Inventories.Where(i => i.UserID == userID).ToList()
             };
-            //var equipment = db.Equipment.Include(e => e.Rarity).Include(e => e.Type);
             return View(inventory);
         }
     }

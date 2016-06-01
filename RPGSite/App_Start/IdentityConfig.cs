@@ -24,8 +24,12 @@ namespace RPGSite
             mailMessage.Subject = message.Subject;
             mailMessage.IsBodyHtml = true;
             mailMessage.Body = message.Body;
-            client.Send(mailMessage);
-
+            try
+            {
+                client.Send(mailMessage);
+            }
+            catch{}
+            
             return Task.FromResult(0);
         }
     }

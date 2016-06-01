@@ -1,4 +1,5 @@
-﻿@model IEnumerable<RPGSite.Models.Posts>
+﻿@model PagedList.IPagedList<RPGSite.Models.Posts>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "News";
@@ -34,7 +35,7 @@ else
                 </font>
             }
         </h2> 
-        <p class="author">@Html.DisplayNameFor(model => model.User): @Html.DisplayFor(modelItem => item.User.UserName)</p>
+        <p class="author">@Html.DisplayNameFor(model => item.User): @Html.DisplayFor(modelItem => item.User.UserName)</p>
         <p class="date">
             Date:
             @if (item.Updated == null)
@@ -51,3 +52,5 @@ else
     </article>
 }
 
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, Page => Url.Action("Index", new { Page }))

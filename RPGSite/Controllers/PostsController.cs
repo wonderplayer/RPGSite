@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using RPGSite.Models;
 using Microsoft.AspNet.Identity;
 using RPGSite.ViewModels;
+using PagedList;
 
 namespace RPGSite.Controllers
 {
@@ -15,10 +16,12 @@ namespace RPGSite.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var posts = db.Posts.Where(p => p.IsNews == false).Include(p => p.User);
-            return View(posts.ToList());
+            var posts = db.Posts.Where(p => p.IsNews == false).Include(p => p.User).OrderBy(p => p.ID);
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(posts.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Posts/Details/5

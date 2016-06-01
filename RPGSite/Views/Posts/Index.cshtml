@@ -1,4 +1,5 @@
-﻿@model IEnumerable<RPGSite.Models.Posts>
+﻿@model PagedList.IPagedList<RPGSite.Models.Posts>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Posts";
@@ -14,13 +15,13 @@
 <table class="table table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().User)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Created)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Created)
         </th>
         @if (User.IsInRole("Admin"))
         {
@@ -59,3 +60,6 @@
 }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, Page => Url.Action("Index", new { Page }))
