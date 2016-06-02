@@ -104,6 +104,11 @@ namespace RPGSite.Controllers
                     var databasePath = folder + "/" + picture;
                     equipment.Picture = databasePath;                  
                     var path = Path.Combine(Server.MapPath("~/images/"), databasePath);
+                    var folderPath = Path.Combine(Server.MapPath("~/images/"), folder);
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
                     Picture.SaveAs(path);
                 }
 
