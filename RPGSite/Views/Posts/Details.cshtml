@@ -38,7 +38,7 @@
     <hr />
     @if (Model.Comments.Count < 1)
     {
-        <p>No comments yet. Be the first one to comment this post!</p>
+        <p class="text-info">No comments yet. Be the first one to comment this post!</p>
     }
     @foreach (var comment in Model.Comments)
     {
@@ -80,4 +80,3 @@
         </div>
     }
 }
-<hr />

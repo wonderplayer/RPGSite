@@ -300,10 +300,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\Shield\Shield.jpg" />
-    <Content Include="Images\Sword\Biggoron_sword.png" />
-    <Content Include="Images\Sword\GuardianAngelSword.gif" />
-    <Content Include="Images\Sword\Sword.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\123.pubxml" />

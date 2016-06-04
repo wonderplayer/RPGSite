@@ -10,7 +10,6 @@ namespace RPGSite.Migrations
     using System.Data.Entity.Validation;
     using System.Linq;
     using System.Text;
-    using System.Web;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
@@ -52,8 +51,13 @@ namespace RPGSite.Migrations
 
             context.EquipmentRarities.AddOrUpdate(
                 er => er.ID,
-                new EquipmentRarities { ID = 1, Rarity = "Rare" },
-                new EquipmentRarities { ID = 2, Rarity = "Epic" }
+                new EquipmentRarities { ID = 1, Rarity = "Ordinary" },
+                new EquipmentRarities { ID = 2, Rarity = "Rare" },
+                new EquipmentRarities { ID = 3, Rarity = "Very rare" },
+                new EquipmentRarities { ID = 4, Rarity = "Epic" },
+                new EquipmentRarities { ID = 5, Rarity = "Mithril" },
+                new EquipmentRarities { ID = 6, Rarity = "Titanium" },
+                new EquipmentRarities { ID = 7, Rarity = "Legendary" }
                 );
             SaveChanges(context);
 
@@ -62,7 +66,12 @@ namespace RPGSite.Migrations
             context.EquipmentTypes.AddOrUpdate(
                 et => et.ID,
                 new EquipmentTypes { ID = 1, Type = "Sword" },
-                new EquipmentTypes { ID = 2, Type = "Shield" }
+                new EquipmentTypes { ID = 2, Type = "Shield" },
+                new EquipmentTypes { ID = 3, Type = "Gloves" },
+                new EquipmentTypes { ID = 4, Type = "Armor" },
+                new EquipmentTypes { ID = 5, Type = "Pants" },
+                new EquipmentTypes { ID = 6, Type = "Helmet" },
+                new EquipmentTypes { ID = 7, Type = "Boots" }
                 );
             SaveChanges(context);
 
@@ -70,9 +79,13 @@ namespace RPGSite.Migrations
 
             context.Equipment.AddOrUpdate(
                 e => e.Title,
-                new Equipment { ID = 1, Title = "Dragon sword", Description = "Sword form dragons skin", Price = 10.99m, TypeID = typeIDs[0], RarityID = rarityIDs[0], Picture = "\\Sword\\Sword.jpg" },
-                new Equipment { ID = 2, Title = "Dragons shield", Description = "Shield form dragons skin", Price = 8.99m, TypeID = typeIDs[1], RarityID = rarityIDs[0], Picture = "\\Shield\\Shield.jpg" },
-                new Equipment { ID = 3, Title = "Warriors magic sword", Description = "Sword of mighty magic warrior", Price = 20.99m, TypeID = typeIDs[0], RarityID = rarityIDs[1], Picture = "\\Sword\\GuardianAngelSword.gif" }
+                new Equipment { ID = 1, Title = "Boots of swiftness", Description = "With these boots no one will run away from you anymore!", Price = 1.99m, TypeID = typeIDs[6], RarityID = rarityIDs[1], Picture = "\\Boots\\e1.png" },
+                new Equipment { ID = 2, Title = "Demons helmet", Description = "This helmet was taken off from the very demon!", Price = 2.99m, TypeID = typeIDs[5], RarityID = rarityIDs[3], Picture = "\\Helmet\\e2.jpg" },
+                new Equipment { ID = 3, Title = "Shield of Achellies", Description = "The mighty Achellies dropped his shield in a war... and we picked it up ;)", Price = 10.99m, TypeID = typeIDs[1], RarityID = rarityIDs[3], Picture = "\\Shield\\e3.jpg" },
+                new Equipment { ID = 4, Title = "Warriors armor", Description = "This armor is the best if you are going to fight some demons. It`s style and defens are extraordinary!", Price = 15.99m, TypeID = typeIDs[3], RarityID = rarityIDs[4], Picture = "\\Armor\\e4.jpg" },
+                new Equipment { ID = 5, Title = "Shield", Description = "Just some basic shield for all n00bs out there.", Price = 0.99m, TypeID = typeIDs[1], RarityID = rarityIDs[0], Picture = "\\Shield\\e5.png" },
+                new Equipment { ID = 6, Title = "Armor of Gods", Description = "Ohh... Do you know better armor than the armor of Gods? I don`t.", Price = 20.99m, TypeID = typeIDs[3], RarityID = rarityIDs[5], Picture = "\\Armor\\e6.jpg" },
+                new Equipment { ID = 4, Title = "Armor of Legends", Description = "The armor of Legends. What can I say? Just buy it ok?", Price = 30.99m, TypeID = typeIDs[3], RarityID = rarityIDs[6], Picture = "\\Armor\\e7.png" }
                 );
             SaveChanges(context);
 
@@ -100,7 +113,8 @@ namespace RPGSite.Migrations
             context.Comments.AddOrUpdate(
                 c => c.ID,
                 new Comments { ID = 1, Comment = "Aliquam erat volutpat!", Created = new DateTime(2016, 4, 26), PostID = postIDs[3], UserID = userIDs[0] },
-                new Comments { ID = 2, Comment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", Created = new DateTime(2016, 4, 28), PostID = postIDs[3], UserID = userIDs[1] }
+                new Comments { ID = 2, Comment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", Created = new DateTime(2016, 4, 28), PostID = postIDs[3], UserID = userIDs[1] },
+                new Comments { ID = 2, Comment = "Sed dapibus eu turpis eget auctor. Nullam dolor neque, lacinia eu ligula vel, aliquet tempor sapien. Nullam euismod vel purus vel pretium. Quisque finibus non lectus facilisis feugiat.", Created = new DateTime(2016, 4, 28), PostID = postIDs[3], UserID = userIDs[1] }
                 );
             SaveChanges(context);
 
@@ -114,62 +128,20 @@ namespace RPGSite.Migrations
 
             var paymentMethodIDs = getPaymentMethodIDs(context);
 
-            //context.SentMessages.AddOrUpdate(
-            //    sm => sm.ID,
-            //    new SentMessages { ID = 1, DateSent = new DateTime(2016, 5, 26), Message = "Hello there.", Title = "How 'ya feelin?", Read = false, UserID = userIDs[0] },
-            //    new SentMessages { ID = 2, DateSent = new DateTime(2016, 5, 28), Message = "For Freddy?", Title = "Are you ready?", Read = false, UserID = userIDs[0] }
-            //    );
-            //SaveChanges(context);
-
-            //var sentMessageIDs = getSentMessageIDs(context);
-
-            //context.RecievedMessages.AddOrUpdate(
-            //    rm => rm.ID,
-            //    new RecievedMessages { ID = 1, UserID = userIDs[1], SentMessageID = sentMessageIDs[0] },
-            //    new RecievedMessages { ID = 2, UserID = userIDs[1], SentMessageID = sentMessageIDs[0] }
-            //    );
-            //SaveChanges(context);
-
-            //context.Trades.AddOrUpdate(
-            //    t => t.ID,
-            //    new Trades { ID = 1, TradeDate = new DateTime(2016, 5, 23), Status = "declined" },
-            //    new Trades { ID = 2, TradeDate = new DateTime(2016, 5, 26), Status = "new" },
-            //    new Trades { ID = 3, TradeDate = new DateTime(2016, 5, 27), Status = "accepted" }
-            //    );
-            //SaveChanges(context);
-
-            //var tradeIDs = getTradeIDs(context);
-
-            //context.WantedItems.AddOrUpdate(
-            //    wi => wi.ID,
-            //    new WantedItems { ID = 1, ItemID = equipmentIDs[0], TradeID = tradeIDs[0], UserID = userIDs[0] },
-            //    new WantedItems { ID = 2, ItemID = equipmentIDs[0], TradeID = tradeIDs[1], UserID = userIDs[0] },
-            //    new WantedItems { ID = 3, ItemID = equipmentIDs[1], TradeID = tradeIDs[2], UserID = userIDs[0] }
-            //    );
-            //SaveChanges(context);
-
-            //context.OfferedItems.AddOrUpdate(
-            //    oi => oi.ID,
-            //    new OfferedItems { ID = 1, ItemID = equipmentIDs[1], TradeID = tradeIDs[0], UserID = userIDs[1] },
-            //    new OfferedItems { ID = 2, ItemID = equipmentIDs[1], TradeID = tradeIDs[1], UserID = userIDs[1] },
-            //    new OfferedItems { ID = 3, ItemID = equipmentIDs[0], TradeID = tradeIDs[2], UserID = userIDs[1] }
-            //    );
-            //SaveChanges(context);
-
             context.Inventories.AddOrUpdate(
                 i => i.ID,
-                new Inventories { ID = 1, EquipmentID = equipmentIDs[0], Quantity = 2, UserID = userIDs[0] },
-                new Inventories { ID = 2, EquipmentID = equipmentIDs[0], Quantity = 4, UserID = userIDs[1] },
-                new Inventories { ID = 3, EquipmentID = equipmentIDs[1], Quantity = 1, UserID = userIDs[0] },
-                new Inventories { ID = 4, EquipmentID = equipmentIDs[1], Quantity = 7, UserID = userIDs[1] }
+                new Inventories { ID = 1, EquipmentID = equipmentIDs[0], Quantity = 5, UserID = userIDs[0] },
+                new Inventories { ID = 2, EquipmentID = equipmentIDs[0], Quantity = 1, UserID = userIDs[1] },
+                new Inventories { ID = 3, EquipmentID = equipmentIDs[1], Quantity = 2, UserID = userIDs[0] },
+                new Inventories { ID = 4, EquipmentID = equipmentIDs[4], Quantity = 3, UserID = userIDs[1] }
                 );
             SaveChanges(context);
 
             context.Orders.AddOrUpdate(
                 o => o.ID,
-                new Orders { ID = 1, OrderDate = new DateTime(2016, 4, 28), PaymentMethodID = paymentMethodIDs[0], UserID = userIDs[0], Total = 54.95m },
-                new Orders { ID = 2, OrderDate = new DateTime(2016, 4, 29), PaymentMethodID = paymentMethodIDs[1], UserID = userIDs[0], Total = 28.97m },
-                new Orders { ID = 3, OrderDate = new DateTime(2016, 4, 30), PaymentMethodID = paymentMethodIDs[0], UserID = userIDs[1], Total = 80.91m }
+                new Orders { ID = 1, OrderDate = new DateTime(2016, 4, 28), PaymentMethodID = paymentMethodIDs[0], UserID = userIDs[0], Total = 9.95m },
+                new Orders { ID = 2, OrderDate = new DateTime(2016, 4, 29), PaymentMethodID = paymentMethodIDs[1], UserID = userIDs[0], Total = 7.97m },
+                new Orders { ID = 3, OrderDate = new DateTime(2016, 4, 30), PaymentMethodID = paymentMethodIDs[0], UserID = userIDs[1], Total = 2.97m }
                 );
             SaveChanges(context);
 
@@ -177,13 +149,24 @@ namespace RPGSite.Migrations
 
             context.OrderItems.AddOrUpdate(
                 oi => oi.ID,
-                new OrderItems { ID = 1, EquipmentID = equipmentIDs[0], OrderID = orderIDs[0], Quantity = 5, Total = 54.95m },
-                new OrderItems { ID = 2, EquipmentID = equipmentIDs[0], OrderID = orderIDs[1], Quantity = 1, Total = 10.99m },
-                new OrderItems { ID = 3, EquipmentID = equipmentIDs[1], OrderID = orderIDs[1], Quantity = 2, Total = 17.98m },
-                new OrderItems { ID = 4, EquipmentID = equipmentIDs[1], OrderID = orderIDs[2], Quantity = 9, Total = 80.91m }
+                new OrderItems { ID = 1, EquipmentID = equipmentIDs[0], OrderID = orderIDs[0], Quantity = 5, Total = 9.95m },
+                new OrderItems { ID = 2, EquipmentID = equipmentIDs[0], OrderID = orderIDs[1], Quantity = 1, Total = 1.99m },
+                new OrderItems { ID = 3, EquipmentID = equipmentIDs[1], OrderID = orderIDs[1], Quantity = 2, Total = 5.98m },
+                new OrderItems { ID = 4, EquipmentID = equipmentIDs[4], OrderID = orderIDs[2], Quantity = 3, Total = 2.97m }
                 );
 
             SaveChanges(context);
+
+            context.Gallery.AddOrUpdate(
+                g => g.ID,
+                new Gallery { Title = "Screenshot from game", UserID = userIDs[0], Picture = "\\Gallery\\2.jpg" },
+                new Gallery { Title = "Beginner level", UserID = userIDs[0], Picture = "\\Gallery\\3.jpg" },
+                new Gallery { Title = "Blader", UserID = userIDs[0], Picture = "\\Gallery\\4.png" },
+                new Gallery { Title = "All characters", UserID = userIDs[0], Picture = "\\Gallery\\5.jpg" },
+                new Gallery { Title = "Divine battle", UserID = userIDs[0], Picture = "\\Gallery\\6.jpg" },
+                new Gallery { Title = "Assassin", UserID = userIDs[0], Picture = "\\Gallery\\7.jpg" },
+                new Gallery { Title = "Shielder", UserID = userIDs[0], Picture = "\\Gallery\\8.jpg" }
+                );
         }
 
         private void AddAdminToRole(ApplicationDbContext context, string Id)
@@ -229,29 +212,6 @@ namespace RPGSite.Migrations
             return orderIDs;
         }
 
-        //private int[] getTradeIDs(ApplicationDbContext context)
-        //{
-        //    List<Trades> trades = new List<Trades>();
-        //    trades = context.Trades.ToList();
-        //    var tradeIDs = new int[trades.Count];
-        //    for (int i = 0; i < trades.Count; i++)
-        //    {
-        //        tradeIDs[i] = trades[i].ID;
-        //    }
-        //    return tradeIDs;
-        //}
-
-        //private int[] getSentMessageIDs(ApplicationDbContext context)
-        //{
-        //    List<SentMessages> sentMessages = new List<SentMessages>();
-        //    sentMessages = context.SentMessages.ToList();
-        //    var sentMessageIDs = new int[sentMessages.Count];
-        //    for (int i = 0; i < sentMessages.Count; i++)
-        //    {
-        //        sentMessageIDs[i] = sentMessages[i].ID;
-        //    }
-        //    return sentMessageIDs;
-        //}
 
         private int[] getEquipmentIDs(ApplicationDbContext context)
         {

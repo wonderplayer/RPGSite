@@ -9,7 +9,7 @@ namespace RPGSite.Models
         public int ID { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 3)]
+        [StringLength(50, MinimumLength = 3)]
         public string Title { get; set; }
 
         [Required]
