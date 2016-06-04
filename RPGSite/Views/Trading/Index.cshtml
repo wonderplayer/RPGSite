@@ -4,14 +4,14 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Search user for trade</h2>
 
 @using (Html.BeginForm("Index", "Trading", FormMethod.Get))
 {
     <p>
         <div class="form-inline">
             <div class="form-group">
-                @Html.TextBox("userName")
+                @Html.TextBox("userName", null, new { @class = "form-control"})
             </div>
             <div class="form-group">
                 <input type="submit" value="Search" class="btn btn-default" />
@@ -20,10 +20,15 @@
     </p>
 }
 
+@if (Model.Count() < 1)
+{
+    <h2 class="text-info">No users to trade with</h2>
+}
 @foreach (var user in Model)
 {
-    <p>
-        @user.UserName
+    <hr />
+    <div class="row">
+        <h4 class="col-md-2">@user.UserName</h4>
         @Html.ActionLink("Trade", "Trade", new { userID = user.Id}, new { @class = "btn btn-default"})
-    </p>
+    </div>
 }

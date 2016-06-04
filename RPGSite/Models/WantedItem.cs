@@ -5,7 +5,7 @@ namespace RPGSite.Models
     public class WantedItem
     {
         [ForeignKey("Offer")]
-        public int ID { get; set; }
+        public string ID { get; set; }
 
         public int EquipmentID { get; set; }
 

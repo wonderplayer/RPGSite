@@ -6,14 +6,14 @@ namespace RPGSite.Models
     public class Offers
     {
         [Key]
-        public int ID { get; set; }
+        public string ID { get; set; }
 
-        public int WantedItemID { get; set; }
+        public string WantedItemID { get; set; }
 
         [ForeignKey("WantedItemID")]
         public virtual WantedItem WantedItem { get; set; }
 
-        public int OfferedItemID { get; set; }
+        public string OfferedItemID { get; set; }
 
         [ForeignKey("OfferedItemID")]
         public virtual OfferedItem OfferedItem { get; set; }

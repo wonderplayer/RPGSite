@@ -1,0 +1,36 @@
+﻿@model  RPGSite.Models.Offers
+
+@{
+    ViewBag.Title = "Trade";
+}
+
+<h2>Create offer for @ViewBag.User</h2>
+
+@using (Html.BeginForm("Trade", "Trading", null, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+                <div class="form-group">
+            @Html.LabelFor(model => model.OfferedItemID, "Your offered item", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("OfferedItemID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OfferedItemID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WantedItemID, "Item you want from" , htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("WantedItemID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.WantedItemID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <input type="text" name="WantedUserID" value="@ViewBag.WantedUserID" hidden />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Offer" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

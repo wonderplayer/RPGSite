@@ -1,0 +1,34 @@
+﻿@model IEnumerable<RPGSite.Models.Offers>
+
+@{
+    ViewBag.Title = "Offered";
+}
+
+<h2>Your offers</h2>
+@if (Model.Count() < 1)
+{
+    <h2 class="text-info">
+        You didn`t send anyone any trades! Click
+        @Html.ActionLink("here", "Index")
+        to change it!
+    </h2>
+}else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Your offered item</th>
+                <th>Your wanted item</th>
+                <th>Offer status</th>
+            </tr>
+        </thead>
+        @foreach (var offer in Model)
+        {
+            <tr>
+                <td>@offer.OfferedItem.Equipment.Title</td>
+                <td>@offer.WantedItem.Equipment.Title</td>
+                <td class="text-info">@offer.OfferStatus</td>
+            </tr>
+        }
+    </table>
+}

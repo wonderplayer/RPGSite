@@ -165,7 +165,7 @@ namespace RPGSite.Migrations
                 "dbo.OfferedItems",
                 c => new
                     {
-                        ID = c.Int(nullable: false),
+                        ID = c.String(nullable: false, maxLength: 128),
                         EquipmentID = c.Int(nullable: false),
                         UserID = c.String(maxLength: 128),
                     })
@@ -181,9 +181,9 @@ namespace RPGSite.Migrations
                 "dbo.Offers",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        WantedItemID = c.Int(nullable: false),
-                        OfferedItemID = c.Int(nullable: false),
+                        ID = c.String(nullable: false, maxLength: 128),
+                        WantedItemID = c.String(),
+                        OfferedItemID = c.String(),
                         OfferStatus = c.String(),
                     })
                 .PrimaryKey(t => t.ID);
@@ -192,7 +192,7 @@ namespace RPGSite.Migrations
                 "dbo.WantedItems",
                 c => new
                     {
-                        ID = c.Int(nullable: false),
+                        ID = c.String(nullable: false, maxLength: 128),
                         EquipmentID = c.Int(nullable: false),
                         UserID = c.String(maxLength: 128),
                     })

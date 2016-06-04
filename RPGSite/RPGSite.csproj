@@ -402,6 +402,11 @@
     <Content Include="Scripts\Lightbox\lightbox.min.map" />
     <Content Include="Views\Posts\DeleteComment.cshtml" />
     <Content Include="Views\Trading\Index.cshtml" />
+    <Content Include="Views\Trading\Trade.cshtml" />
+    <Content Include="Views\Trading\Trades.cshtml" />
+    <Content Include="Views\Trading\Accept.cshtml" />
+    <Content Include="Views\Trading\Decline.cshtml" />
+    <Content Include="Views\Trading\Offered.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

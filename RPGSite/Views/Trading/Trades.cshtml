@@ -1,0 +1,48 @@
+﻿@model IEnumerable<RPGSite.Models.Offers>
+
+@{
+    ViewBag.Title = "Trades";
+}
+
+<h2>Received offers</h2>
+@if (Model.Count() < 1)
+{
+    <h2 class="text-info">You have no offers.</h2>
+} else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>       
+                <th>Offered item to you</th>
+                <th>Wanted item form you</th>
+                <th>Offer status</th>
+            </tr>
+        </thead>
+        @foreach (var offer in Model)
+        {
+            <tr>
+                <td>@offer.OfferedItem.Equipment.Title</td>
+                <td>@offer.WantedItem.Equipment.Title</td>
+                @if (offer.OfferStatus == "Pending")
+                {
+                    <td>
+                        @Html.ActionLink("Accept", "Accept", new
+                           {
+                               offererID = offer.OfferedItem.UserID,
+                               recieverID = offer.WantedItem.UserID,
+                               offeredItemID = offer.OfferedItem.EquipmentID,
+                               recievedItemID = offer.WantedItem.EquipmentID,
+                               offerID = offer.ID
+                           }, new { @class = "btn btn-primary" })
+
+                        @Html.ActionLink("Decline", "Decline", new { offerID = offer.ID }, new { @class = "btn btn-danger" })
+                    </td>
+                }
+                else
+                {
+                    <td class="text-info">@offer.OfferStatus</td>
+                }
+            </tr>
+        }
+    </table>
+}
