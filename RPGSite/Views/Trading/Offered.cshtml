@@ -17,6 +17,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>User</th>
                 <th>Your offered item</th>
                 <th>Your wanted item</th>
                 <th>Offer status</th>
@@ -25,6 +26,7 @@
         @foreach (var offer in Model)
         {
             <tr>
+                <td>@offer.WantedItem.User.UserName</td>
                 <td>@offer.OfferedItem.Equipment.Title</td>
                 <td>@offer.WantedItem.Equipment.Title</td>
                 <td class="text-info">@offer.OfferStatus</td>
