@@ -26,7 +26,7 @@
 </p>
 <table class="table">
     <tr>
-        
+
         <th>
             @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
@@ -39,19 +39,22 @@
         <th>
             @Html.ActionLink("Rarity", "Index", new { sortOrder = ViewBag.RaritySortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
-        
+
+        <th>
+            Picture
+        </th>
+
         <th>
             Price
         </th>
         <th>
-            Picture
+            Action
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        
+
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
@@ -64,17 +67,16 @@
         <td>
             @Html.DisplayFor(modelItem => item.Rarity.Rarity)
         </td>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
         <td>
             <img src="~/Images/@item.Picture" alt="Image" class="product-image" />
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
         </td>
     </tr>
 }

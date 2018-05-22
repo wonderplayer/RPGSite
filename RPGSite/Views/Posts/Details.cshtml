@@ -9,7 +9,7 @@
 <article>
     <h2 class="title">
         @Html.DisplayFor(model => model.Post.Title)
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin") || User.Identity.Name == Model.Post.User.UserName)
             {
             <font size="2">
                 @Html.ActionLink("Edit", "Edit", new { id = Model.Post.ID })

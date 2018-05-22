@@ -175,8 +175,8 @@ namespace RPGSite.Models
             }
             return context.Session[CartSessionKey].ToString();
         }
-        //When a user ha logged in, migrate their shopping cart to
-        //ve associated with theid username
+        //When a user has logged in, migrate their shopping cart to
+        //cart we have associated with theid username
         public void MigrateCart(string email)
         {
             var shoppingCart = db.Carts.Where(

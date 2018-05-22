@@ -7,6 +7,8 @@ using RPGSite.Models;
 using Microsoft.AspNet.Identity;
 using System.IO;
 using PagedList;
+using System;
+using System.Diagnostics;
 
 namespace RPGSite.Controllers
 {
@@ -17,10 +19,19 @@ namespace RPGSite.Controllers
         // GET: Gallery
         public ActionResult Index(int? page)
         {
-            var gallery = db.Gallery.Include(g => g.User).OrderBy(g => g.ID);
-            int pageSize = 6;
-            int pageNumber = (page ?? 1);
-            return View(gallery.ToPagedList(pageNumber, pageSize));
+            try
+            {
+                var gallery = db.Gallery.Include(g => g.User).OrderBy(g => g.ID);
+                int pageSize = 6;
+                int pageNumber = (page ?? 1);
+                return View(gallery.ToPagedList(pageNumber, pageSize));
+            }
+            catch (Exception ex)
+            {
+                Trace.Write(ex);
+                return null;
+            }
+            
         }
         [Authorize(Roles = "Admin")]
         // GET: Gallery/Create
@@ -32,6 +43,7 @@ namespace RPGSite.Controllers
         // POST: Gallery/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Picture,Title")] Gallery gallery, HttpPostedFileBase Picture)
@@ -42,6 +54,12 @@ namespace RPGSite.Controllers
                 if (ModelState.IsValid)
                 {
                     var picture = Path.GetFileName(Picture.FileName);
+                    var extenstion = Path.GetExtension(Picture.FileName);
+                    if (extenstion != ".jpg" && extenstion != ".png" && extenstion != ".jpeg" && extenstion != ".gif")
+                    {
+                        ViewBag.PictureError = "The picture should be format of .jpg, .gif, .png or .jpeg";
+                        return View(gallery);
+                    }
                     var folder = "Gallery";
                     var databasePath = folder + "/" + picture;
                     gallery.Picture = databasePath;

@@ -46,6 +46,7 @@ namespace RPGSite.Controllers
         // POST: Posts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Title,Description,IsNews")] Posts posts)
@@ -85,6 +86,7 @@ namespace RPGSite.Controllers
         // POST: Posts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Title,Description,Created,UserID")] Posts posts)
@@ -121,11 +123,16 @@ namespace RPGSite.Controllers
         }
 
         // POST: Posts/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Posts posts = db.Posts.Find(id);
+            if (!CanDelete(posts))
+            {
+                return View("Error");
+            }
             db.Posts.Remove(posts);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -194,6 +201,7 @@ namespace RPGSite.Controllers
             return View("Details", post);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("DeleteComment")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCommentConfirmed(int id)

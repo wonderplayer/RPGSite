@@ -11,11 +11,14 @@ namespace RPGSite.Controllers
     public class TradingController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
-        
 
         // GET: Trading
         public ActionResult Index(string userName)
         {
+            if (!CanTrade())
+            {
+                return View("Index");
+            }
             var currentUserID = User.Identity.GetUserId();
             var users = db.Users.Where(u => u.Inventories.Count > 0 && u.Id != currentUserID).ToList();
             if (!string.IsNullOrEmpty(userName))
@@ -35,6 +38,18 @@ namespace RPGSite.Controllers
             if (string.IsNullOrEmpty(userID))
             {
                 return RedirectToAction("Index");
+            }
+            if (!CanTrade())
+            {
+                return View("Index");
+            }
+            if (userID == User.Identity.GetUserId())
+            {
+                return View("Error");
+            }
+            if(db.Inventories.Where(i => i.UserID == userID).Count() == 0)
+            {
+                return View("Error");
             }
             // Inventory with equipment name of current user
             var currentUserID = User.Identity.GetUserId();
@@ -57,23 +72,41 @@ namespace RPGSite.Controllers
         [HttpPost]
         public ActionResult Trade(FormCollection values)
         {
+            // Pārbaudīt, vai lietotājam ir kaut viens priekšmets inventārā
+            if (!CanTrade())
+            {
+                return View("Index");
+            }
+
+            // Pārbadudīt, vai tika mēģināts tirgoties ar lietotāju, kuram nav priekšmetu inventārā
+            var wantedUserID = values["WantedUserID"];
+            if (db.Inventories.Where(i => i.UserID == wantedUserID).Count() == 0)
+            {
+                return View("Error");
+            }
+
+            //Izveidot jaunu tirgošanās pieprasījumu
             var offer = new Offers();
             offer.ID = Guid.NewGuid().ToString();
             offer.OfferedItemID = offer.ID;
             offer.WantedItemID = offer.ID;
             offer.OfferStatus = "Pending";
 
+            // Izveidot jaunu piedāvāto priekšmetu
             var offeredItem = new OfferedItem();
             offeredItem.UserID = User.Identity.GetUserId();
             offeredItem.EquipmentID = int.Parse(values["OfferedItemID"]);
 
+            // Izveidot jaunu vēlāmo priekšmetu
             var wantedItem = new WantedItem();
             wantedItem.UserID = values["WantedUserID"];
             wantedItem.EquipmentID = int.Parse(values["WantedItemID"]);
  
+            // Sasaistīt vēlāmo un piedāvāto priekšmetu ar tirgošanās piedāvājumu
             offer.OfferedItem = offeredItem;
             offer.WantedItem = wantedItem;
 
+            // Saglabāt ierakstus datu bāzē
             db.Offers.Add(offer);
             db.OfferedItem.Add(offeredItem);
             db.WantedItem.Add(wantedItem);
@@ -103,6 +136,10 @@ namespace RPGSite.Controllers
             if (string.IsNullOrEmpty(offerID))
             {
                 return HttpNotFound();
+            }
+            if (User.Identity.GetUserId() != recieverID)
+            {
+                return View("Error");
             }
             #region Add item to reciever
             Inventories recieverItem = db.Inventories.Where(
@@ -175,6 +212,11 @@ namespace RPGSite.Controllers
             }
             Offers offer = db.Offers.Where(o => o.ID == offerID).FirstOrDefault();
 
+            if (User.Identity.GetUserId() != offer.WantedItem.UserID)
+            {
+                return View("Error");
+            }
+
             if (offer == null)
             {
                 return HttpNotFound();
@@ -208,6 +250,19 @@ namespace RPGSite.Controllers
             item.EquipmentID = offeredItemID;
             item.Quantity = 1;
             db.Inventories.Add(item);
+        }
+
+        private bool CanTrade()
+        {
+            var currentUserID = User.Identity.GetUserId();
+            var inventoryItemCount = db.Inventories.Where(i => i.UserID == currentUserID).Count();
+            var isInventoryEmpty = inventoryItemCount > 0 ? false : true;
+            if (isInventoryEmpty)
+            {
+                ViewBag.Error = "You don't have any items in your inventory";
+                return false;
+            }
+            return true;
         }
     }
 }

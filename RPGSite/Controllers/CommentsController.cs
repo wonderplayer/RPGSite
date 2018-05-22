@@ -16,6 +16,7 @@ namespace RPGSite.Controllers
             return PartialView(newComment);
         }
         
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Comments comment)

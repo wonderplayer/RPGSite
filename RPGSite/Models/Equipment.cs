@@ -16,6 +16,8 @@ namespace RPGSite.Models
         [StringLength(500, MinimumLength = 10)]
         public string Description { get; set; }
 
+        [Required]
+        [Range(0.01,100)]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 

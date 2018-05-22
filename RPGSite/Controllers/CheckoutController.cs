@@ -34,14 +34,16 @@ namespace RPGSite.Controllers
             {
                 order.UserID = User.Identity.GetUserId();
                 order.OrderDate = DateTime.Now;
+                // Pievienot pasūtījumam apmaksas veidu 
                 var pmID = 0;
                 int.TryParse(values["PaymentMethodID"], out pmID);
                 order.PaymentMethodID = pmID;
 
-                //SaveOrder
+                // Saglabāt pasūtījumu datu bāzē
                 db.Orders.Add(order);
                 db.SaveChanges();
-                //Process the order
+
+                // Saglabāt pasūtījuma preces datu bāzē
                 var cart = ShoppingCart.GetCart(HttpContext);
                 cart.CreateOrder(order);
 
@@ -49,7 +51,7 @@ namespace RPGSite.Controllers
             }
             catch
             {
-                //Invalid - redisplay with errors
+                // Kaut kas notika nepareizi
                 ViewBag.PaymentMethodID = new SelectList(db.PaymentMethods, "ID", "Method");
                 return View();
             }    

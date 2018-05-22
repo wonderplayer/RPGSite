@@ -339,14 +339,14 @@ namespace RPGSite.Controllers
                 return RedirectToAction("Login");
             }
 
-            if (loginInfo.Login.LoginProvider == "Facebook")
-            {
-                var identity = AuthenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
-                var access_token = identity.FindFirstValue("FacebookAccessToken");
-                var fb = new FacebookClient(access_token);
-                dynamic myInfo = fb.Get("/me?fields=email"); // specify the email field
-                loginInfo.Email = myInfo.email;
-            }
+            //if (loginInfo.Login.LoginProvider == "Facebook")
+            //{
+            //    var identity = AuthenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
+            //    var access_token = identity.FindFirstValue("FacebookAccessToken");
+            //    var fb = new FacebookClient(access_token);
+            //    dynamic myInfo = fb.Get("/me?fields=email"); // specify the email field
+            //    loginInfo.Email = myInfo.email;
+            //}
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);

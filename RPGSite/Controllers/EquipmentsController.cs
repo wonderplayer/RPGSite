@@ -100,6 +100,14 @@ namespace RPGSite.Controllers
                 if (Picture != null && Picture.ContentLength > 0)
                 {
                     var picture = Path.GetFileName(Picture.FileName);
+                    var extenstion = Path.GetExtension(Picture.FileName);
+                    if (extenstion != ".jpg" && extenstion != ".png" && extenstion != ".jpeg" && extenstion != ".gif")
+                    {
+                        ViewBag.PictureError = "The picture should be format of .jpg, .gif, .png or .jpeg";
+                        ViewBag.RarityID = new SelectList(db.EquipmentRarities, "ID", "Rarity", equipment.RarityID);
+                        ViewBag.TypeID = new SelectList(db.EquipmentTypes, "ID", "Type", equipment.TypeID);
+                        return View(equipment);
+                    }
                     var folder = db.EquipmentTypes.Find(equipment.TypeID).Type.ToString();
                     var databasePath = folder + "/" + picture;
                     equipment.Picture = databasePath;                  
