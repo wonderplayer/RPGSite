@@ -8,9 +8,12 @@ using Microsoft.Owin.Security;
 using RPGSite.Models;
 using Facebook;
 
+// Šis kontrolieris ir noklusējuma ASP.NET kontrolieris
+// Modifikācija tika veikta funkcijās, virs kurām ir uzraksts "MODIFICĒTS: komentārs"
 namespace RPGSite.Controllers
 {
     [Authorize]
+    // Lietotāju modulis
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -73,12 +76,14 @@ namespace RPGSite.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
+            
+            // MODIFICĒTS: Autentifikācija tika izmainīta no e-pasta un paroles uz lietota'jvārdu un paroli
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
 
-                    //Migrates shopping cart
+                    // MODIFICĒTS: Neautentificēta lietotāja grozu migrē uz autentificēta lietotāja grozu 
                     MigrateShoppingCart(model.UserName);
 
                     return RedirectToLocal(returnUrl);
@@ -153,18 +158,22 @@ namespace RPGSite.Controllers
         {
             if (ModelState.IsValid)
             {
+                // MODIFICĒTS: model.Email tika izmain;its uz model.UserName, lai leitotājam būtu lietotājvārds atšķirīgs no e-pasta 
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    // MODIFICĒTS: Pievienot lietotāja lomu "User" datu bāzei, kas nozīmē autentificēti lietotāji
                     await UserManager.AddToRoleAsync(user.Id, "User");
                     
-                    //Migrates shopping cart
+                    // MODIFICĒTS: Neautentificēta lietotāja grozu migrē uz autentificēta lietotāja grozu
                     MigrateShoppingCart(model.UserName);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
+                    
+                    // MODIFICĒTS: Atkomentēta ietvara noklusētā e-pasta apstiprināšana
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     try
@@ -213,6 +222,7 @@ namespace RPGSite.Controllers
         {
             if (ModelState.IsValid)
             {
+                // MODIFICĒTS: Lietotājs tiek meklēts pēc e-pasta nevis lietotājvārda
                 var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
@@ -222,6 +232,8 @@ namespace RPGSite.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
+                
+                // MODIFICĒTS: Atkomentēta ietvara noklusējuma paroles atjaunošanas funkcionalitāte
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
@@ -259,6 +271,7 @@ namespace RPGSite.Controllers
             {
                 return View(model);
             }
+            // MODIFICĒTS: Lietotājs tiek meklēts pēc e-pasta nevis lietotājvārda
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
@@ -339,14 +352,14 @@ namespace RPGSite.Controllers
                 return RedirectToAction("Login");
             }
 
-            if (loginInfo.Login.LoginProvider == "Facebook")
-            {
-                var identity = AuthenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
-                var access_token = identity.FindFirstValue("FacebookAccessToken");
-                var fb = new FacebookClient(access_token);
-                dynamic myInfo = fb.Get("/me?fields=email"); // specify the email field
-                loginInfo.Email = myInfo.email;
-            }
+            //if (loginInfo.Login.LoginProvider == "Facebook")
+            //{
+            //    var identity = AuthenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
+            //    var access_token = identity.FindFirstValue("FacebookAccessToken");
+            //    var fb = new FacebookClient(access_token);
+            //    dynamic myInfo = fb.Get("/me?fields=email"); // specify the email field
+            //    loginInfo.Email = myInfo.email;
+            //}
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
@@ -502,13 +515,16 @@ namespace RPGSite.Controllers
         }
         #endregion
 
+        // MODIFICĒTS: Neautentificēta lietotāja groza migrēšana
         #region My methods
         private void MigrateShoppingCart(string UserName)
         {
-            //Associate shopping cart with logged-in user
+            // Iegūst neautentificēta lietotāja grozu
             var cart = ShoppingCart.GetCart(HttpContext);
 
+            // Migrē groza priekšmetus no viena uz otru
             cart.MigrateCart(UserName);
+            // Pārraksta leitotāja groza ID sessijā
             Session[ShoppingCart.CartSessionKey] = UserName;
         }
         #endregion

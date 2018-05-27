@@ -56,23 +56,23 @@ namespace RPGSite
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            FacebookAuthenticationOptions facebookOptions = new FacebookAuthenticationOptions
-            {
-                AppId = "1016093051816021",
-                AppSecret = "38a3e3f68598fadbf1561cf07bec3a16",
-                Provider = new FacebookAuthenticationProvider
-                {
-                    OnAuthenticated = context =>
-                    {
-                        context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
-                        return Task.FromResult(true);
-                    }
-                }
-            };
+            //FacebookAuthenticationOptions facebookOptions = new FacebookAuthenticationOptions
+            //{
+            //    AppId = "1046627878813929",
+            //    AppSecret = "128643a601798777deae42e196ac3516",
+            //    Provider = new FacebookAuthenticationProvider
+            //    {
+            //        OnAuthenticated = context =>
+            //        {
+            //            context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+            //            return Task.FromResult(true);
+            //        }
+            //    }
+            //};
 
-            facebookOptions.Scope.Add("email");
+            //facebookOptions.Scope.Add("email");
 
-            app.UseFacebookAuthentication(facebookOptions);
+            //app.UseFacebookAuthentication(facebookOptions);
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {

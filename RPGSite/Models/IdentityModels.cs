@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration;
 
 namespace RPGSite.Models
 {
@@ -14,12 +15,10 @@ namespace RPGSite.Models
         public List<Events> Events { get; set; }
         public List<Gallery> Gallery { get; set; }
         public List<Inventories> Inventories { get; set; }
-        //public List<OfferedItems> OfferedItems { get; set; }
-        //public List<SentMessages> SentMessages { get; set; }
         public List<Orders> Orders { get; set; }
         public List<Posts> Posts { get; set; }
-        //public List<RecievedMessages> RecievedMessages { get; set; }
-        //public List<WantedItems> WantedItems { get; set; }
+        public List<WantedItem> WantedItems { get; set; }
+        public List<OfferedItem> OfferedItems { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -40,22 +39,20 @@ namespace RPGSite.Models
         public DbSet<Events> Events { get; set; }
         public DbSet<Gallery> Gallery { get; set; }
         public DbSet<Inventories> Inventories { get; set; }
-        //public DbSet<OfferedItems> OfferedItems { get; set; }
         public DbSet<OrderItems> OrderItems { get; set; }
         public DbSet<Orders> Orders { get; set; }
         public DbSet<PaymentMethods> PaymentMethods { get; set; }
         public DbSet<Posts> Posts { get; set; }
-        //public DbSet<RecievedMessages> RecievedMessages { get; set; }
-        //public DbSet<SentMessages> SentMessages { get; set; }
-        //public DbSet<Trades> Trades { get; set; }
-        //public DbSet<WantedItems> WantedItems { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<Offers> Offers { get; set; }
+        public DbSet<WantedItem> WantedItem { get; set; }
+        public DbSet<OfferedItem> OfferedItem { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Configurations.Add(new MessagesConfig());
+            // Fluent API can be used to configure some migrations
         }
 
         public ApplicationDbContext()
@@ -69,18 +66,4 @@ namespace RPGSite.Models
         }
     }
 
-    //public class MessagesConfig : EntityTypeConfiguration<SentMessages>
-    //{
-    //    public MessagesConfig() : base()
-    //    {
-    //        HasRequired(m => m.Reciever)
-    //            .WithMany(u => u.Messages)
-    //            .WillCascadeOnDelete(false);
-
-    //        HasRequired(m => m.Sender)
-    //            .WithMany(u => u.Messages)
-    //            .WillCascadeOnDelete(false);
-    //    }
-
-    //}
 }

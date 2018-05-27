@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,10 +26,12 @@ namespace RPGSite.Models
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayName("Start date")]
         public DateTime StartDate { get; set; }
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayName("End date")]
         public DateTime EndDate { get; set; }
 
         public string UserID { get; set; }

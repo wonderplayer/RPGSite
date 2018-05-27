@@ -5,10 +5,13 @@ using System.Web.Mvc;
 
 namespace RPGSite.Controllers
 {
+    // Klase priekš veikala moduļa
     public class ShoppingCartController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: ShoppingCart
+        // Attēlot grozu
+        // Funkcija VE.05
         public ActionResult Index()
         {
             var cart = ShoppingCart.GetCart(HttpContext);
@@ -25,6 +28,8 @@ namespace RPGSite.Controllers
         }
 
         //GET: /Store/AddToCart/5
+        // Pievienot grozam
+        // Funkcija VE.04
         [HttpPost]
         public ActionResult AddToCart(int id)
         {
@@ -43,13 +48,15 @@ namespace RPGSite.Controllers
         }
 
         //AJAX: /ShoppingCart/RemoveFromCart/5
+        // Iznemt preci no groza
+        // Funckija VE.06
         [HttpPost]
         public ActionResult RemoveFromCart(int id)
         {
-            //Remove item from the cart
+            // Iegūt grozu
             var cart = ShoppingCart.GetCart(HttpContext);
 
-            //Get the name of the equipment to display confirmation
+            // Iegūt groza priekšmetus
             var cartItem = db.Carts.SingleOrDefault(item => item.RecordID == id);
             if (cartItem == null)
             {
@@ -59,10 +66,10 @@ namespace RPGSite.Controllers
             string equipmentName = cartItem.Equipment.Title;
 
 
-            //Remove from cart
+            // Izņemt no groza
             int itemCount = cart.RemoveFromCart(id);
 
-            //Display the confirmation message
+            // Attēlot ziņu
             var results = new ShoppingCartRemoveViewModel
             {
                 Message = Server.HtmlEncode(equipmentName) +
@@ -74,16 +81,6 @@ namespace RPGSite.Controllers
             };
 
             return Json(results);
-        }
-
-        //GET: /ShoppingCart/CartSummary
-        [ChildActionOnly]
-        public ActionResult CartSummary()
-        {
-            var cart = ShoppingCart.GetCart(HttpContext);
-
-            ViewData["CartCount"] = cart.GetCount();
-            return PartialView("CartSummary");
         }
     }
 }

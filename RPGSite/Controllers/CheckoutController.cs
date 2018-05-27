@@ -6,11 +6,13 @@ using Microsoft.AspNet.Identity;
 
 namespace RPGSite.Controllers
 {
+    // Klase atbild par funkciju VE.07
     [Authorize]
     public class CheckoutController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: Checkout/Payment
+        // Atver apmaksas logu, kur jāizvēlas apmaksas veids
         public ActionResult Payment()
         {
             var cart = ShoppingCart.GetCart(HttpContext);
@@ -25,6 +27,7 @@ namespace RPGSite.Controllers
         }
 
         //POST: /Checkout/Payment
+        // Apmaksāt un pievienot ierakstus datu bāzē
         [HttpPost]
         public ActionResult Payment(FormCollection values)
         {
@@ -34,14 +37,16 @@ namespace RPGSite.Controllers
             {
                 order.UserID = User.Identity.GetUserId();
                 order.OrderDate = DateTime.Now;
+                // Pievienot pasūtījumam apmaksas veidu 
                 var pmID = 0;
                 int.TryParse(values["PaymentMethodID"], out pmID);
                 order.PaymentMethodID = pmID;
 
-                //SaveOrder
+                // Saglabāt pasūtījumu datu bāzē
                 db.Orders.Add(order);
                 db.SaveChanges();
-                //Process the order
+
+                // Saglabāt pasūtījuma preces datu bāzē
                 var cart = ShoppingCart.GetCart(HttpContext);
                 cart.CreateOrder(order);
 
@@ -49,12 +54,13 @@ namespace RPGSite.Controllers
             }
             catch
             {
-                //Invalid - redisplay with errors
+                // Kaut kas notika nepareizi
                 ViewBag.PaymentMethodID = new SelectList(db.PaymentMethods, "ID", "Method");
                 return View();
             }    
         }
 
+        // Parādīt apmaksas saņamšanas lapu
         public ActionResult Complete(int id)
         {
             //Validate customer owns order

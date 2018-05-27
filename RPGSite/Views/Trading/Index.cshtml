@@ -1,0 +1,38 @@
+﻿@model IEnumerable<RPGSite.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <h1 class="text-danger">@ViewBag.Error</h1>
+}else{
+    <h2>Search user for trade</h2>
+
+    using (Html.BeginForm("Index", "Trading", FormMethod.Get))
+    {
+        <p>
+            <div class="form-inline">
+                <div class="form-group">
+                    @Html.TextBox("userName", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Search" class="btn btn-default" />
+                </div>
+            </div>
+        </p>
+    }
+
+    if (Model.Count() < 1)
+    {
+        <h2 class="text-info">No users to trade with</h2>
+    }
+    foreach (var user in Model)
+    {
+        <hr />
+        <div class="row">
+            <h4 class="col-md-2">@user.UserName</h4>
+            @Html.ActionLink("Trade", "Trade", new { userID = user.Id }, new { @class = "btn btn-default" })
+        </div>
+    }
+}

@@ -10,12 +10,14 @@ using PagedList;
 
 namespace RPGSite.Controllers
 {
-    
+    // Klase realizē notikumu moduli
     public class EventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Events
+        // Attēlot notikumus
+        // Funkcija NO.05
         public ActionResult Index(int? page)
         {
             var events = db.Events.Include(e => e.User).OrderByDescending(e => e.Created);
@@ -25,6 +27,8 @@ namespace RPGSite.Controllers
         }
 
         // GET: Events/Details/5
+        // Attēlot notikumu
+        // Funkcija NO.01
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -41,6 +45,7 @@ namespace RPGSite.Controllers
         }
 
         // GET: Events/Create
+        // Attēlot notikuma izveidošanas skatu
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
@@ -50,6 +55,9 @@ namespace RPGSite.Controllers
         // POST: Events/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Pievienot notikumu datu bāzē
+        // Funkcija NO.03
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Title,Description,StartDate,EndDate,UserID")] Events events)
@@ -71,6 +79,8 @@ namespace RPGSite.Controllers
         }
 
         // GET: Events/Edit/5
+        // Attēlot notikuma rediģēšanas skatu
+        // Funkcija NO.06
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
@@ -89,6 +99,9 @@ namespace RPGSite.Controllers
         // POST: Events/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Rediģēt notikumu
+        // Funkcija NO.04
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Title,Description,Created,StartDate,EndDate,UserID")] Events events)
@@ -109,6 +122,8 @@ namespace RPGSite.Controllers
         }
 
         // GET: Events/Delete/5
+        // Atvērt dzēšanas skatu
+        // Funkcija NO.07
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
@@ -125,6 +140,8 @@ namespace RPGSite.Controllers
         }
 
         // POST: Events/Delete/5
+        // Dzēš notikumu
+        // Funkcija NO.02
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

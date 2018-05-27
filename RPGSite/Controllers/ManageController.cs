@@ -9,6 +9,9 @@ using RPGSite.Models;
 
 namespace RPGSite.Controllers
 {
+    //Realizē lietotāju moduļa funkcionalitāti
+    // Šis kontrolieris ir noklusējuma ASP.NET kontrolieris
+    // Modifikācija tika veikta funkcijās, virs kurām ir uzraksts "MODIFICĒTS: komentārs"
     [Authorize]
     public class ManageController : Controller
     {
@@ -63,7 +66,7 @@ namespace RPGSite.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
+            var user = UserManager.FindById(userId); // MODIFICĒTS: Iegūt lietotāja datus
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -71,6 +74,7 @@ namespace RPGSite.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                // MODIFICĒTS: Pievienoti lauki
                 UserName = user.UserName,
                 Email = user.Email 
             };

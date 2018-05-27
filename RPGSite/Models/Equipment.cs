@@ -9,13 +9,15 @@ namespace RPGSite.Models
         public int ID { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 3)]
+        [StringLength(50, MinimumLength = 3)]
         public string Title { get; set; }
 
         [Required]
         [StringLength(500, MinimumLength = 10)]
         public string Description { get; set; }
 
+        [Required]
+        [Range(0.01,100)]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
@@ -36,9 +38,9 @@ namespace RPGSite.Models
 
         public List<OrderItems> OrderItems { get; set; }
 
-        //public List<OfferedItems> OfferedForTrade { get; set; }
+        public List<OfferedItem> OfferedForTrade { get; set; }
 
-        //public List<WantedItems> WantedForTrade { get; set; }
+        public List<WantedItem> WantedForTrade { get; set; }
 
         public List<Inventories> Inventory { get; set; }
 

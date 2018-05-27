@@ -10,19 +10,24 @@ using PagedList;
 
 namespace RPGSite.Controllers
 {
+    // Klase realizē ekipējumu moduli
     [Authorize(Roles = "Admin")]
     public class EquipmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Equipments
+        // Attēlot visus ekipējumus ar to kārtošanu un meklēšanu
+        // Funckcija EK.05, EK.08, EK.09
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            // Pārbaudīt, vai tiek kārtots pēc kāda parametra
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParam = string.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.RaritySortParam = sortOrder == "Rarity" ? "rarity_desc" : "Rarity";
             ViewBag.TypeSortParam = sortOrder == "Type" ? "type_desc" : "Type";
 
+            // pĀrbaudīt, vai tika kaut kas meklēts
             if (searchString != null)
             {
                 page = 1;
@@ -38,6 +43,7 @@ namespace RPGSite.Controllers
             {
                 equipment = equipment.Where(e => e.Title.Contains(searchString));
             }
+            // Sakārtot pēc izvēlētās kolonnas
             switch (sortOrder)
             {
                 case "title_desc":
@@ -66,6 +72,8 @@ namespace RPGSite.Controllers
         }
 
         // GET: Equipments/Details/5
+        // Apskatīties ekipējuma detaļas
+        // Funkcija EK.01
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -81,6 +89,7 @@ namespace RPGSite.Controllers
         }
 
         // GET: Equipments/Create
+        // Ekipējuma izveidošanas skats
         public ActionResult Create()
         {
             ViewBag.RarityID = new SelectList(db.EquipmentRarities, "ID", "Rarity");
@@ -91,15 +100,26 @@ namespace RPGSite.Controllers
         // POST: Equipments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Izveidot ekipējumu
+        // Funkcija EK.03
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] Equipment equipment, HttpPostedFileBase Picture)
         {
             if (ModelState.IsValid)
             {
+                // Pārbaudīt, vai bilde atbilst noteikumiem
                 if (Picture != null && Picture.ContentLength > 0)
                 {
                     var picture = Path.GetFileName(Picture.FileName);
+                    var extenstion = Path.GetExtension(Picture.FileName);
+                    if (extenstion != ".jpg" && extenstion != ".png" && extenstion != ".jpeg" && extenstion != ".gif")
+                    {
+                        ViewBag.PictureError = "The picture should be format of .jpg, .gif, .png or .jpeg";
+                        ViewBag.RarityID = new SelectList(db.EquipmentRarities, "ID", "Rarity", equipment.RarityID);
+                        ViewBag.TypeID = new SelectList(db.EquipmentTypes, "ID", "Type", equipment.TypeID);
+                        return View(equipment);
+                    }
                     var folder = db.EquipmentTypes.Find(equipment.TypeID).Type.ToString();
                     var databasePath = folder + "/" + picture;
                     equipment.Picture = databasePath;                  
@@ -123,6 +143,8 @@ namespace RPGSite.Controllers
         }
 
         // GET: Equipments/Edit/5
+        // Atvērt ekipējuma rediģēšanas skatu
+        // Funkcija EK.06
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -137,6 +159,7 @@ namespace RPGSite.Controllers
             ViewBag.RarityID = new SelectList(db.EquipmentRarities, "ID", "Rarity", equipment.RarityID);
             ViewBag.TypeID = new SelectList(db.EquipmentTypes, "ID", "Type", equipment.TypeID);
             ViewBag.PicturePath = Path.Combine(Server.MapPath("~/images/"), equipment.Picture);
+            // Iegūst datus rediģēšanai
             EditEquipmentViewModel editEquipment = new EditEquipmentViewModel
             {
                 ID = equipment.ID,
@@ -155,6 +178,8 @@ namespace RPGSite.Controllers
         // POST: Equipments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Rediģēt ekipējuma datus
+        // Funkcija EK.04
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Title,Description,Price,Picture,TypeID,RarityID")] EditEquipmentViewModel editedEquipment, HttpPostedFileBase Picture, string currentPicturePath)
@@ -196,6 +221,8 @@ namespace RPGSite.Controllers
         }
 
         // GET: Equipments/Delete/5
+        // Attēlot dzēšanas skatu
+        // Funkcija EK.07
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -211,6 +238,8 @@ namespace RPGSite.Controllers
         }
 
         // POST: Equipments/Delete/5
+        // Dzēst ekipējumu
+        // Funkcija EK.02
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

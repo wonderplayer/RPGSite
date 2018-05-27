@@ -11,11 +11,13 @@ using PagedList;
 
 namespace RPGSite.Controllers
 {
+    // KLase realizē foruma moduli
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
+        // Attēlot rakstus FO.05
         public ActionResult Index(int? page)
         {
             var posts = db.Posts.Where(p => p.IsNews == false).Include(p => p.User).OrderBy(p => p.ID);
@@ -25,6 +27,8 @@ namespace RPGSite.Controllers
         }
 
         // GET: Posts/Details/5
+        // Attēlot raksta detaļas
+        // Funkcija FO.01
         [HttpGet]
         public ActionResult Details(int? id)
         {
@@ -37,6 +41,7 @@ namespace RPGSite.Controllers
         }
 
         // GET: Posts/Create
+        // Attēlot raksta veidošanas skatu
         [Authorize]
         public ActionResult Create()
         {
@@ -46,6 +51,9 @@ namespace RPGSite.Controllers
         // POST: Posts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Pievienot rakstu datu bāzei
+        // Funkcija FO.03
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Title,Description,IsNews")] Posts posts)
@@ -62,6 +70,8 @@ namespace RPGSite.Controllers
         }
 
         // GET: Posts/Edit/5
+        // Attēlot raksta rediģēšanas skatu
+        // Funkcija FO.06
         [Authorize]
         public ActionResult Edit(int? id)
         {
@@ -85,6 +95,9 @@ namespace RPGSite.Controllers
         // POST: Posts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Rediģē rakstu
+        // Funkcija FO.04
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Title,Description,Created,UserID")] Posts posts)
@@ -100,6 +113,8 @@ namespace RPGSite.Controllers
         }
 
         // GET: Posts/Delete/5
+        // Attēlot raksta dzēšanas skatu
+        // Funkcija FO.07
         [Authorize]
         public ActionResult Delete(int? id)
         {
@@ -121,11 +136,18 @@ namespace RPGSite.Controllers
         }
 
         // POST: Posts/Delete/5
+        // Dzēst rakstu
+        // Funkcija FO.02
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Posts posts = db.Posts.Find(id);
+            if (!CanDelete(posts))
+            {
+                return View("Error");
+            }
             db.Posts.Remove(posts);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -140,13 +162,14 @@ namespace RPGSite.Controllers
             base.Dispose(disposing);
         }
 
-        #region My methods
-
+        // Pārbauda, vai lietotājs var dzēst rakstu
         private bool CanDelete(Posts post)
         {
             return User.IsInRole("Admin") || User.Identity.GetUserId() == post.UserID;
         }
 
+        // Pievieno komentāru
+        // Funkcija FO.09
         [Authorize]
         [HttpPost]
         public ActionResult AddComment(PostDetailViewModel postModel, FormCollection values)
@@ -166,6 +189,8 @@ namespace RPGSite.Controllers
             return CreatePostDetailsView(postModel.Comment.PostID, postModel.Comment);
         }
 
+        // Attēlo rakstu ar komentāriem
+        // Funkcija FO.01, FO.10
         private ActionResult CreatePostDetailsView(int? id, Comments comment)
         {
             Posts posts = db.Posts.Find(id);
@@ -194,6 +219,9 @@ namespace RPGSite.Controllers
             return View("Details", post);
         }
 
+        // Dzēst komentāru
+        // Funkcija FO.08
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("DeleteComment")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCommentConfirmed(int id)
@@ -204,6 +232,8 @@ namespace RPGSite.Controllers
             return RedirectToAction("Details", new { id = comment.PostID});
         }
 
+        // Attēlot komentāra dzēšanas skatu
+        // Funkcija FO.11
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteComment(int? id)
         {
@@ -218,7 +248,5 @@ namespace RPGSite.Controllers
             }
             return View(comment);
         }
-
-        #endregion
     }
 }

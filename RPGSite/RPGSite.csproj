@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -215,6 +216,7 @@
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
+    <Compile Include="Controllers\TradingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -234,11 +236,14 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Inventories.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OfferedItem.cs" />
+    <Compile Include="Models\Offers.cs" />
     <Compile Include="Models\Orders.cs" />
     <Compile Include="Models\OrderItems.cs" />
     <Compile Include="Models\PaymentMethods.cs" />
     <Compile Include="Models\Posts.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
+    <Compile Include="Models\WantedItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\EditEquipmentViewModel.cs" />
@@ -296,10 +301,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\Shield\Shield.jpg" />
-    <Content Include="Images\Sword\Biggoron_sword.png" />
-    <Content Include="Images\Sword\GuardianAngelSword.gif" />
-    <Content Include="Images\Sword\Sword.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -319,7 +320,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -395,6 +398,12 @@
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Scripts\Lightbox\lightbox.min.map" />
     <Content Include="Views\Posts\DeleteComment.cshtml" />
+    <Content Include="Views\Trading\Index.cshtml" />
+    <Content Include="Views\Trading\Trade.cshtml" />
+    <Content Include="Views\Trading\Trades.cshtml" />
+    <Content Include="Views\Trading\Accept.cshtml" />
+    <Content Include="Views\Trading\Decline.cshtml" />
+    <Content Include="Views\Trading\Offered.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
