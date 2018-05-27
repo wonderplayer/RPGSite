@@ -5,9 +5,12 @@ using System.Web.Mvc;
 
 namespace RPGSite.Controllers
 {
+    // Foruma moduli
+    // Klase apraksta funkciju FO.09
     public class CommentsController : Controller
     {
         // GET: Comments
+        // Attēlot komentāra pievienošanas skatu
         public ActionResult Create(int PostID)
         {
             var newComment = new Comments();
@@ -19,6 +22,7 @@ namespace RPGSite.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // Pievienot komentāru
         public ActionResult Create(Comments comment)
         {
             comment.Created = DateTime.Now;

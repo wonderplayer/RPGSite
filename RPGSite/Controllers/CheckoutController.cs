@@ -6,11 +6,13 @@ using Microsoft.AspNet.Identity;
 
 namespace RPGSite.Controllers
 {
+    // Klase atbild par funkciju VE.07
     [Authorize]
     public class CheckoutController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: Checkout/Payment
+        // Atver apmaksas logu, kur jāizvēlas apmaksas veids
         public ActionResult Payment()
         {
             var cart = ShoppingCart.GetCart(HttpContext);
@@ -25,6 +27,7 @@ namespace RPGSite.Controllers
         }
 
         //POST: /Checkout/Payment
+        // Apmaksāt un pievienot ierakstus datu bāzē
         [HttpPost]
         public ActionResult Payment(FormCollection values)
         {
@@ -57,6 +60,7 @@ namespace RPGSite.Controllers
             }    
         }
 
+        // Parādīt apmaksas saņamšanas lapu
         public ActionResult Complete(int id)
         {
             //Validate customer owns order

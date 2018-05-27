@@ -18,6 +18,7 @@ namespace RPGSite.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
+        // Klase ir priekš datu ievietošanas datu bāzē pie tās izveidošanas
         protected override void Seed(ApplicationDbContext context)
         {
             var passwordHash = new PasswordHasher();

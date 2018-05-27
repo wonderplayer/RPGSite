@@ -12,6 +12,8 @@ namespace RPGSite.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Inventory
+        // Attēlo lietotāja inventāru
+        // Funkcija LI.08
         public ActionResult Index()
         {
             var userID = User.Identity.GetUserId();

@@ -9,27 +9,37 @@ using System.Web.Mvc;
 
 namespace RPGSite.Models
 {
+    // Klase palīdz realizēt veikala moduli
     public class ShoppingCart
     {
         ApplicationDbContext db = new ApplicationDbContext();
         string ShoppingCartID { get; set; }
         public const string CartSessionKey = "CartID";
+
+        // Iegūst grozu
+        // Funkcija VE.05
         public static ShoppingCart GetCart(HttpContextBase context)
         {
             var cart = new ShoppingCart();
             cart.ShoppingCartID = cart.GetCartId(context);
             return cart;
         }
-        //Helper method to simplify shopping cart calls
+
+        // Iegūt grozu no jebkura konrollieta
+        // Funkcija VE.05
         public static ShoppingCart GetCart(Controller controller)
         {
             return GetCart(controller.HttpContext);
         }
+
+        // Pievienot preci grozam
+        // Funkcija VE.04
         public void AddToCart(Equipment equipment)
         {
-            //Get the matching cart and equipment instances
+            // Iegūt preci no groza
             var cartItem = db.Carts.SingleOrDefault(c => c.CartID == ShoppingCartID && c.EquipmentID == equipment.ID);
 
+            // Ja prece neeksistē grozā, tad to pievienot, citādāk palielināt daudzumu par 1
             if (cartItem == null)
             {
                 cartItem = new Cart
@@ -43,15 +53,16 @@ namespace RPGSite.Models
             }
             else
             {
-                //If the item does exist in the cart, then add one to quantity
                 cartItem.Count++;
             }
-            //Save changes
             db.SaveChanges();
         }
+
+        // Izņemt no groza
+        // Funkcija VE.06
         public int RemoveFromCart(int id)
         {
-            //Get the cart
+            // Iegūt grozu
             var cartItem = db.Carts.Single(
                 cart => cart.CartID == ShoppingCartID && cart.RecordID == id);
 
@@ -59,6 +70,7 @@ namespace RPGSite.Models
 
             if (cartItem != null)
             {
+                // Ja daudzums lielāks par 1, tad samazināt daudzumu, citādāk izņemt preci no groza
                 if (cartItem.Count > 1)
                 {
                     cartItem.Count--;
@@ -73,6 +85,8 @@ namespace RPGSite.Models
             }
             return itemCount;
         }
+
+        // Izņemt visas preces no groza pēc pirkšanas
         public void EmptyCart()
         {
             var cartItems = db.Carts.Where(cart => cart.CartID == ShoppingCartID);
@@ -81,51 +95,56 @@ namespace RPGSite.Models
             {
                 db.Carts.Remove(cartItem);
             }
-            //Save changes
             db.SaveChanges();
         }
+
+        // Iegūit preces grozā
         public List<Cart> GetCartItems()
         {
             return db.Carts.Where(cart => cart.CartID == ShoppingCartID).ToList();
         }
+
+        // Iegūt groza preču dauduzmu
         public int GetCount()
         {
-            //Get the count of each item in the cart and sum them up
             int? count = (from cartItems in db.Carts
                           where cartItems.CartID == ShoppingCartID
                           select (int?)cartItems.Count).Sum();
-            //Return 0 if all entries are null
             return count ?? 0;
         }
+
+        // Iegūt groza summu
         public decimal GetTotal()
         {
-            //Multiply equipment price by count of that equipment to get
-            //the current price for each of those albums in the cart
-            //sum all album price totals to get the cart total
             decimal? total = (from cartItems in db.Carts
                               where cartItems.CartID == ShoppingCartID
                               select (int?)cartItems.Count * cartItems.Equipment.Price).Sum();
             return total ?? decimal.Zero;
         }
+
+        // Iegūt pirkšana
+        // Funkcija VE.07
         public int CreateOrder(Orders order)
         {
             decimal orderTotal = 0;
 
             var cartItems = GetCartItems();
-            //Iterate over the items in the cart,
-            //adding th order details for each
+
+            // Iziet caur visām groza precēm
             foreach (var item in cartItems)
             {
+                // Izveidot jaunun ierakstu pirkuma priekšmetiem
                 var orderItem = new OrderItems
                 {
                     EquipmentID = item.EquipmentID,
                     OrderID = order.ID,
                     Quantity = item.Count,
-                    Total = item.Count * item.Equipment.Price    //Maybe need to change to unit price not total price
+                    Total = item.Count * item.Equipment.Price
                 };
 
                 var inventoryItem = db.Inventories.Where(i => i.UserID == order.UserID && i.EquipmentID == item.EquipmentID).FirstOrDefault();
 
+                // Ja prece jau ir pirkuma precēs, tad palielināt tās daudzumu, citādāk pievienot
                 if (inventoryItem != null)
                 {
                     inventoryItem.Quantity += item.Count;
@@ -141,42 +160,41 @@ namespace RPGSite.Models
                     };
                     db.Inventories.Add(inventoryItem);
                 }
-                //Set the order total of the shopping cart
+
                 orderTotal += (item.Count * item.Equipment.Price);
 
                 db.OrderItems.Add(orderItem);
             }
-            //Set the order's total to the orderTotal count
             order.Total = orderTotal;
 
-            //Save the order
             db.SaveChanges();
-            //Empty the shopping cart
             EmptyCart();
-            //Return the OrderID as the confirmation number
             return order.ID;
         }
-        //We're using HttpContextBase to allow acces to cookies
+
+        // Iegūst groza ID no pārlūka sīkfailiem
         public string GetCartId(HttpContextBase context)
         {
+            // Pārbaudīt, vai sīkfailos jau ir iepirkumu grozs
             if (context.Session[CartSessionKey] == null)
             {
                 if (!string.IsNullOrWhiteSpace(context.User.Identity.Name))
                 {
+                    // Izveidot iepirkuma grozu, ja lietotājs ir autentificēts
                     context.Session[CartSessionKey] = context.User.Identity.Name;
                 }
                 else
                 {
-                    //Generate a new random GUID using System.Guid class
+                    // Uzģenerēt ieprikuma groza ID, ja lietotājs nav autentificēts
                     Guid tempCartId = Guid.NewGuid();
-                    //Send tempCartId back to client as a cookie
+                    // Saglabāt to ID kā sīkfalu
                     context.Session[CartSessionKey] = tempCartId.ToString();
                 }
             }
             return context.Session[CartSessionKey].ToString();
         }
-        //When a user has logged in, migrate their shopping cart to
-        //cart we have associated with theid username
+        
+        // Maina groza ID no GUID uz autentificētā lietotāja e-pastu
         public void MigrateCart(string email)
         {
             var shoppingCart = db.Carts.Where(
